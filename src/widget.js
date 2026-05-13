@@ -1,4 +1,5 @@
 import './style.css'
+import BundledRuntime from './bundled-runtime.js'
 import { loadCss, loadScript, mergeDeep, resolveTarget } from './utils.js'
 
 const DEFAULT_ROOT_ID = 'eulabs-widget-root'
@@ -118,10 +119,9 @@ export default class EulabsWidget {
     if (this.options.useDefaultCss !== false && cssUrl) {
       await loadCss(cssUrl)
     }
-    if (!jsUrl) {
-      throw new Error('EulabsWidget: informe options.assets.jsUrl com a URL do script do runtime.')
+    if (jsUrl) {
+      await loadScript(jsUrl)
     }
-    await loadScript(jsUrl)
   }
 
   render() {
@@ -171,12 +171,16 @@ export default class EulabsWidget {
       const Ctor = this.options.runtimeConstructor()
       if (typeof Ctor === 'function') return Ctor
     }
+    const jsUrl = typeof this.options.assets?.jsUrl === 'string' ? this.options.assets.jsUrl : ''
+    if (!jsUrl) {
+      return /** @type {new (opts: object) => RuntimeInstance} */ (BundledRuntime)
+    }
     const name = this.options.runtimeGlobal
     if (typeof name === 'string' && name && typeof window[/** @type {keyof Window} */ (name)] === 'function') {
       return /** @type {new (opts: object) => RuntimeInstance} */ (window[/** @type {keyof Window} */ (name)])
     }
     throw new Error(
-      'EulabsWidget: defina options.runtimeGlobal (string) ou options.runtimeConstructor (função que retorna o construtor).',
+      'EulabsWidget: com assets.jsUrl definido, informe options.runtimeGlobal ou options.runtimeConstructor.',
     )
   }
 

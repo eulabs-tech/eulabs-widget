@@ -1,65 +1,119 @@
-function i(s, t) {
-  if (!t || typeof t != "object") return s;
+class p {
+  /** @param {Record<string, unknown>} options */
+  constructor(t) {
+    this.options = t, this._mounted = !1;
+  }
+  /** @returns {void} */
+  _mount() {
+    if (this._mounted) return;
+    const t = (
+      /** @type {string} */
+      this.options.target
+    ), e = document.querySelector(t);
+    if (!e) return;
+    const s = (
+      /** @type {Record<string, string>} */
+      this.options.labelTexts && typeof this.options.labelTexts == "object" ? this.options.labelTexts : {}
+    ), n = s.origin ?? "Origem?", i = s.destination ?? "Para onde?", d = s.search ?? "Buscar";
+    e.innerHTML = `
+      <div class="eulabs-bundled-widget" role="region" aria-label="Busca de viagens">
+        <p class="eulabs-bundled-widget__note">Modo embutido (pacote npm).</p>
+        <div class="eulabs-bundled-widget__row">
+          <label class="eulabs-bundled-widget__label">${r(n)}</label>
+          <input class="eulabs-bundled-widget__input" type="text" name="origin" autocomplete="off" placeholder="${r(n)}" />
+        </div>
+        <div class="eulabs-bundled-widget__row">
+          <label class="eulabs-bundled-widget__label">${r(i)}</label>
+          <input class="eulabs-bundled-widget__input" type="text" name="destination" autocomplete="off" placeholder="${r(i)}" />
+        </div>
+        <button type="button" class="eulabs-bundled-widget__submit">${r(d)}</button>
+      </div>
+    `.trim();
+    const l = e.querySelector(".eulabs-bundled-widget__submit");
+    l && l.addEventListener("click", () => {
+      const u = String(this.options.urlWL ?? "");
+      u && window.location.assign(u);
+    }), this._mounted = !0;
+  }
+  init() {
+    this._mount();
+  }
+  start() {
+    this._mount();
+  }
+  destroy() {
+    const t = (
+      /** @type {string} */
+      this.options.target
+    ), e = document.querySelector(t);
+    e && (e.innerHTML = ""), this._mounted = !1;
+  }
+}
+function r(o) {
+  return o.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function a(o, t) {
+  if (!t || typeof t != "object") return o;
   for (const e of Object.keys(t)) {
-    const n = t[e], o = s[e];
-    n && typeof n == "object" && !Array.isArray(n) ? o && typeof o == "object" && !Array.isArray(o) ? i(
+    const s = t[e], n = o[e];
+    s && typeof s == "object" && !Array.isArray(s) ? n && typeof n == "object" && !Array.isArray(n) ? a(
       /** @type {Record<string, unknown>} */
-      o,
+      n,
       /** @type {Record<string, unknown>} */
-      n
-    ) : s[e] = i(
+      s
+    ) : o[e] = a(
       {},
       /** @type {Record<string, unknown>} */
       /** @type {unknown} */
-      n
-    ) : s[e] = n;
+      s
+    ) : o[e] = s;
   }
-  return s;
+  return o;
 }
-function u(s) {
-  const t = typeof s == "string" ? document.querySelector(s) : s;
+function m(o) {
+  const t = typeof o == "string" ? document.querySelector(o) : o;
   if (!t) throw new Error("EulabsWidget: target não encontrado");
   return t;
 }
-function l(s) {
+function h(o) {
   return new Promise((t) => {
-    if (!s) {
+    if (!o) {
       t();
       return;
     }
-    if (document.querySelector(`link[href="${s}"]`)) {
+    if (document.querySelector(`link[href="${o}"]`)) {
       t();
       return;
     }
     const e = document.createElement("link");
-    e.rel = "stylesheet", e.href = s, e.onload = () => t(), e.onerror = () => t(), document.head.appendChild(e);
+    e.rel = "stylesheet", e.href = o, e.onload = () => t(), e.onerror = () => t(), document.head.appendChild(e);
   });
 }
-function c(s) {
+function f(o) {
   return new Promise((t, e) => {
-    if (!s) {
+    if (!o) {
       e(new Error("EulabsWidget: jsUrl do runtime é obrigatório em assets.jsUrl"));
       return;
     }
-    const n = document.querySelector(`script[src="${s}"]`);
-    if (n) {
-      const r = () => t();
-      if (n.getAttribute("data-loaded") === "true") {
-        r();
+    const s = document.querySelector(`script[src="${o}"]`);
+    if (s) {
+      const i = () => t();
+      if (s.getAttribute("data-loaded") === "true") {
+        i();
         return;
       }
-      n.addEventListener("load", () => {
-        n.setAttribute("data-loaded", "true"), r();
-      }), n.addEventListener("error", () => e(new Error("EulabsWidget: falha ao carregar script")));
+      s.addEventListener("load", () => {
+        s.setAttribute("data-loaded", "true"), i();
+      }), s.addEventListener("error", () => e(new Error("EulabsWidget: falha ao carregar script")));
       return;
     }
-    const o = document.createElement("script");
-    o.src = s, o.async = !0, o.onload = () => {
-      o.setAttribute("data-loaded", "true"), t();
-    }, o.onerror = () => e(new Error("EulabsWidget: falha ao carregar script")), document.body.appendChild(o);
+    const n = document.createElement("script");
+    n.src = o, n.async = !0, n.onload = () => {
+      n.setAttribute("data-loaded", "true"), t();
+    }, n.onerror = () => e(new Error("EulabsWidget: falha ao carregar script")), document.body.appendChild(n);
   });
 }
-const a = "eulabs-widget-root", d = {
+const c = "eulabs-widget-root", b = {
   theme: "white",
   orientation: "vertical",
   labelTexts: {
@@ -103,7 +157,7 @@ const a = "eulabs-widget-root", d = {
     cssUrl: "",
     jsUrl: ""
   },
-  rootId: a,
+  rootId: c,
   cssVariables: {
     primary: "#253040",
     secondary: "#253040",
@@ -111,12 +165,12 @@ const a = "eulabs-widget-root", d = {
     transparentSecondary: "#2530401A"
   }
 };
-class p {
+class g {
   /**
    * @param {Record<string, unknown>} [options]
    */
   constructor(t = {}) {
-    this.options = i(structuredClone(d), t), this.instance = null, this._mountEl = null, this._targetEl = null;
+    this.options = a(structuredClone(b), t), this.instance = null, this._mountEl = null, this._targetEl = null;
   }
   /**
    * Inicializa o widget (carrega assets, monta e liga o runtime).
@@ -134,30 +188,28 @@ class p {
   applyCssVariables() {
     const t = this.options.cssVariables;
     if (!t || typeof t != "object") return;
-    const e = document.documentElement, n = [
+    const e = document.documentElement, s = [
       ["primary", "--primary"],
       ["secondary", "--secondary"],
       ["primaryDark", "--primaryDark"],
       ["transparentSecondary", "--transparentSecondary"]
     ];
-    for (const [o, r] of n)
-      t[o] != null && t[o] !== "" && e.style.setProperty(r, String(t[o]));
+    for (const [n, i] of s)
+      t[n] != null && t[n] !== "" && e.style.setProperty(i, String(t[n]));
   }
   async loadAssets() {
-    const t = this.options.assets, e = typeof (t == null ? void 0 : t.cssUrl) == "string" ? t.cssUrl : "", n = typeof (t == null ? void 0 : t.jsUrl) == "string" ? t.jsUrl : "";
-    if (this.options.useDefaultCss !== !1 && e && await l(e), !n)
-      throw new Error("EulabsWidget: informe options.assets.jsUrl com a URL do script do runtime.");
-    await c(n);
+    const t = this.options.assets, e = typeof (t == null ? void 0 : t.cssUrl) == "string" ? t.cssUrl : "", s = typeof (t == null ? void 0 : t.jsUrl) == "string" ? t.jsUrl : "";
+    this.options.useDefaultCss !== !1 && e && await h(e), s && await f(s);
   }
   render() {
-    const t = u(
+    const t = m(
       /** @type {string | Element} */
       this.options.target
     );
     this._targetEl = t;
-    const e = typeof this.options.rootId == "string" ? this.options.rootId : a;
+    const e = typeof this.options.rootId == "string" ? this.options.rootId : c;
     t.innerHTML = `<div id="${e}" class="eulabs-widget-root"></div>`, this._mountEl = document.getElementById(e);
-    const n = this.resolveRuntimeConstructor(), r = {
+    const s = this.resolveRuntimeConstructor(), i = {
       target: `#${e}`,
       theme: this.options.theme,
       clientId: this.options.clientId,
@@ -175,27 +227,33 @@ class p {
       hasRadioButtons: this.options.hasRadioButtons,
       gratuity: this.options.gratuity
     };
-    this.instance = new n(r), document.readyState === "complete" && this.instance && typeof this.instance.start == "function" ? this.instance.start() : this.instance && typeof this.instance.init == "function" && this.instance.init();
+    this.instance = new s(i), document.readyState === "complete" && this.instance && typeof this.instance.start == "function" ? this.instance.start() : this.instance && typeof this.instance.init == "function" && this.instance.init();
   }
   resolveRuntimeConstructor() {
+    var s;
     if (typeof this.options.runtimeConstructor == "function") {
-      const e = this.options.runtimeConstructor();
-      if (typeof e == "function") return e;
+      const n = this.options.runtimeConstructor();
+      if (typeof n == "function") return n;
     }
-    const t = this.options.runtimeGlobal;
-    if (typeof t == "string" && t && typeof window[
+    if (!(typeof ((s = this.options.assets) == null ? void 0 : s.jsUrl) == "string" ? this.options.assets.jsUrl : ""))
+      return (
+        /** @type {new (opts: object) => RuntimeInstance} */
+        p
+      );
+    const e = this.options.runtimeGlobal;
+    if (typeof e == "string" && e && typeof window[
       /** @type {keyof Window} */
-      t
+      e
     ] == "function")
       return (
         /** @type {new (opts: object) => RuntimeInstance} */
         window[
           /** @type {keyof Window} */
-          t
+          e
         ]
       );
     throw new Error(
-      "EulabsWidget: defina options.runtimeGlobal (string) ou options.runtimeConstructor (função que retorna o construtor)."
+      "EulabsWidget: com assets.jsUrl definido, informe options.runtimeGlobal ou options.runtimeConstructor."
     );
   }
   bind() {
@@ -205,5 +263,5 @@ class p {
   }
 }
 export {
-  p as default
+  g as default
 };

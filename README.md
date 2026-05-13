@@ -2,7 +2,7 @@
 
 Código-fonte: [github.com/eulabs-tech/eulabs-widget](https://github.com/eulabs-tech/eulabs-widget).
 
-Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em qualquer site ou framework (React, Vue, Angular, JS puro). O pacote carrega o CSS/JS do **runtime** que você configurar e delega as opções ao construtor exposto globalmente por esse script.
+Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em qualquer site ou framework (React, Vue, Angular, JS puro). Por defeito o **JS e o CSS vão no próprio bundle** (`import` em ESM / UMD); não é necessário outro servidor nem `assets.jsUrl`. Opcionalmente pode carregar um runtime externo (script no `window`) se passar `assets.jsUrl` e `runtimeGlobal` (ou `runtimeConstructor`).
 
 ## Instalação
 
@@ -12,26 +12,15 @@ npm install eulabs-widget
 
 ## Página de demonstração
 
-No repositório existe o arquivo [`demo.html`](demo.html): exemplo em HTML que inclui o CSS/UMD do pacote (via jsDelivr, equivalente ao que você obtém com `npm i eulabs-widget`) e monta o widget. Edite no script as variáveis `RUNTIME_JS`, `RUNTIME_CSS` e `RUNTIME_GLOBAL` e rode `npx serve .` na raiz do repositório (ou outro servidor estático) para testar caminhos absolutos (`/…`).
+O arquivo [`demo.html`](demo.html) usa apenas `./dist/eulabs-widget.css` e `./dist/eulabs-widget.umd.cjs` (runtime embutido). Rode `npm run build` e `npx serve .` na raiz e abra `/demo.html`.
 
-## Uso (ESM)
+## Uso (ESM) — modo embutido (padrão)
 
 ```javascript
 import EulabsWidget from 'eulabs-widget'
 
-// Runtime servido pelo próprio projeto (ex.: arquivos em `public/eulabs-runtime/`
-// no Vite, ou `public/` no Next). `BASE_URL` cobre deploy em subpasta.
-const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL
-  ? import.meta.env.BASE_URL
-  : '/'
-
 await new EulabsWidget({
   target: '#widget-eulabs-wrapper',
-  assets: {
-    cssUrl: `${base}eulabs-runtime/widget.min.css`,
-    jsUrl: `${base}eulabs-runtime/widget.min.js`,
-  },
-  runtimeGlobal: 'NomeDoConstrutorNoWindow',
   theme: 'white',
   clientId: 10770,
   urlWL: 'https://www.eucatur.com.br/',
@@ -65,19 +54,33 @@ await new EulabsWidget({
 }).init()
 ```
 
-Coloque o CSS/JS minificados do **runtime** nessa pasta estática do seu app (não confundir com o bundle `eulabs-widget` do npm). Também pode usar URLs absolutas (`https://cdn...`) se preferir.
+O UI mínimo fica em `src/bundled-runtime.js` (podes substituir pela integração completa).
 
-### Alternativa ao `runtimeGlobal`
+## Runtime externo (opcional)
 
-Se preferir não expor o nome do construtor em string no bundle, use uma função:
+Se definires `assets.jsUrl`, o pacote injeta esse script e usa o construtor em `window`:
 
 ```javascript
-runtimeConstructor: () => window['NomeDoConstrutor'],
+const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL
+  ? import.meta.env.BASE_URL
+  : '/'
+
+await new EulabsWidget({
+  target: '#widget-eulabs-wrapper',
+  assets: {
+    cssUrl: `${base}eulabs-runtime/widget.min.css`,
+    jsUrl: `${base}eulabs-runtime/widget.min.js`,
+  },
+  runtimeGlobal: 'NomeDoConstrutorNoWindow',
+  // …mesmas opções de cliente
+}).init()
 ```
+
+Ou `runtimeConstructor: () => window['NomeDoConstrutor']` em vez de `runtimeGlobal`.
 
 ## Uso (HTML + UMD)
 
-Inclua o arquivo gerado em `dist/eulabs-widget.umd.cjs` e use o global **EulabsWidget** (conforme saída do Vite para `lib.name`).
+Inclua `dist/eulabs-widget.umd.cjs` e `dist/eulabs-widget.css` e use o global **EulabsWidget**.
 
 ## Build da biblioteca
 
@@ -87,19 +90,19 @@ npm install
 npm run build
 ```
 
-Artefatos em `dist/`: módulo ES (`eulabs-widget.js`) e UMD (`eulabs-widget.umd.cjs`).
+Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.cjs`) e CSS (`eulabs-widget.css`).
 
 ## Opções principais
 
 | Opção | Descrição |
 |--------|------------|
 | `target` | Seletor CSS ou `Element` onde o widget será montado |
-| `assets.cssUrl` | URL do CSS do runtime (opcional se `useDefaultCss: false`) |
-| `assets.jsUrl` | URL do JS do runtime (**obrigatório**) |
-| `runtimeGlobal` | Nome da função/classe no `window` após carregar o script |
-| `runtimeConstructor` | Função que retorna o construtor (substitui `runtimeGlobal`) |
+| `assets.cssUrl` | Só com runtime externo: URL extra de CSS (opcional se `useDefaultCss: false`) |
+| `assets.jsUrl` | Se vazio, usa runtime **embutido**. Se preenchido, carrega esse script e exige `runtimeGlobal` ou `runtimeConstructor` |
+| `runtimeGlobal` | Com `assets.jsUrl`: nome em `window` do construtor após o script carregar |
+| `runtimeConstructor` | Função que retorna o construtor (substitui `runtimeGlobal`; também pode ser usada sozinha com runtime embutido se quiseres outra classe) |
 | `rootId` | Id do nó interno (padrão: `eulabs-widget-root`) |
-| `cssVariables` | Objeto com `primary`, `secondary`, `primaryDark`, `transparentSecondary` aplicados em `:root` |
+| `cssVariables` | `primary`, `secondary`, `primaryDark`, `transparentSecondary` em `:root` |
 | Demais campos | Repassados ao runtime (`clientId`, `urlWL`, `urlAPI`, `labelTexts`, etc.) |
 
 ## SSR
