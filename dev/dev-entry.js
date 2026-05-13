@@ -34,7 +34,6 @@ try {
     customOutput: { enable: false, parameter: '', where: 'after' },
     hasRadioButtons: true,
     // gratuity: {
-    //   enable: true,
     //   errorMessage: 'Consulta de gratuidade somente para viagens de ida',
     //   optionList: [
     //     { default: true, label: 'Passagem comum', value: 'common' },

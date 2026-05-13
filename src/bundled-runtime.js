@@ -354,7 +354,7 @@ export default class EulabsBundledRuntime {
           .join('')
       originSel.innerHTML = opts
       destSel.innerHTML = opts
-      this._setStatus(root, `${list.length} seccionamento(s) carregado(s).`, false)
+      this._setStatus(root)
     }
 
     try {
