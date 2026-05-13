@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo — eulabs-widget</title>
     <!-- Após `npm run build`, sirva a raiz com `npx serve .` -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.3/dist/eulabs-widget.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.4/dist/eulabs-widget.css" />
     <style>
       body {
         font-family: system-ui, sans-serif;
@@ -23,21 +23,16 @@
         font-size: 0.9rem;
       }
       #widget-eulabs-wrapper {
-        max-width: 48rem;
+        max-width: 100%;
         margin-top: 1rem;
       }
     </style>
   </head>
   <body>
-    <p class="hint">
-      Ajuste no script <code>URL_FRONT</code> (site / front) e <code>URL_API</code> (API / back). Para
-      testar o pacote local em <code>./dist/</code>, rode <code>npm run build</code> e
-      <code>npx serve .</code> e abra <code>/demo.html</code>.
-    </p>
 
     <div id="widget-eulabs-wrapper"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.3/dist/eulabs-widget.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.4/dist/eulabs-widget.umd.js"></script>
     <script defer>
       ;(async function () {
         const mount = document.getElementById('widget-eulabs-wrapper')
@@ -63,7 +58,7 @@
             urlWL: 'https://www.eucatur.com.br/',
             /** URL da API (back) para listagem de seccionamentos */
             urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
-            orientation: 'horizontal', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
+            orientation: 'vertical', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
             cssVariables: {
               primary: '#253040',
               secondary: '#253040',
