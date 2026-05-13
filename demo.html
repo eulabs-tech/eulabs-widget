@@ -30,9 +30,9 @@
   </head>
   <body>
     <p class="hint">
-      Este demo usa só os arquivos em <code>./dist/</code> (runtime <strong>embutido</strong> no pacote).
-      Rode <code>npm run build</code> e <code>npx serve .</code> na raiz do repositório e abra
-      <code>/demo.html</code>.
+      Ajuste no script <code>URL_FRONT</code> (site / front) e <code>URL_API</code> (API / back). Para
+      testar o pacote local em <code>./dist/</code>, rode <code>npm run build</code> e
+      <code>npx serve .</code> e abra <code>/demo.html</code>.
     </p>
 
     <div id="widget-eulabs-wrapper"></div>
@@ -54,22 +54,25 @@
           return
         }
 
+        // URL do site (front / white-label) — redirecionamentos e links do widget
+        const URL_FRONT = 'https://www.eucatur.com.br/'
+        // URL da API (back). Se o browser bloquear (CORS), sirva o demo pelo Vite com proxy ou configure CORS na API.
+        const URL_API =
+          'https://api-v4.eucatur.com.br/sectionals?is_road_station=true'
+
         try {
           await new Loader({
             target: '#widget-eulabs-wrapper',
             theme: 'white',
             clientId: 10770,
-            urlWL: 'https://www.eucatur.com.br/',
-            urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
-            orientation: 'vertical',
-            labelTexts: {
-              origin: 'Origem?',
-              destination: 'Para onde?',
-              departureDate: 'Ida',
-              returnDate: 'Volta',
-              search: 'Buscar',
-              toggle_go: 'Somente ida',
-              toggle_go_and_back: 'Ida e volta',
+            urlWL: URL_FRONT,
+            urlAPI: URL_API,
+            orientation: 'horizontal',
+            cssVariables: {
+              primary: '#253040',
+              secondary: '#253040',
+              primaryDark: '#f4c5b8',
+              transparentSecondary: '#2530401A',
             },
             calendarReposition: true,
             calendarNumberMonths: 2,
@@ -79,14 +82,6 @@
             tracking: { source: 'undefined', medium: 'undefined', campaign: 'undefined' },
             customOutput: { enable: false, parameter: '', where: 'after' },
             hasRadioButtons: true,
-            gratuity: {
-              enable: true,
-              errorMessage: 'Consulta de gratuidade somente para viagens de ida',
-              optionList: [
-                { default: true, label: 'Passagem comum', value: 'common' },
-                { default: false, label: 'Passagem com benefício', value: 'gratuity' },
-              ],
-            },
           }).init()
         } catch (e) {
           console.error(e)

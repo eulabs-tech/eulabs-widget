@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eulabs-widget — dev</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 1.5rem;
+        background: #f5f5f5;
+      }
+      .hint {
+        max-width: 42rem;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background: #e3f2fd;
+        border: 1px solid #90caf9;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+      #widget-eulabs-wrapper {
+        max-width: 100%;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="hint">
+      Servidor de desenvolvimento Vite: importa diretamente <code>src/</code> (hot reload).
+      Para testar o pacote buildado, use <code>npm run build</code> e <a href="/demo.html">demo.html</a>.
+    </p>
+    <div id="widget-eulabs-wrapper"></div>
+    <script type="module" src="/dev/dev-entry.js"></script>
+  </body>
+</html>

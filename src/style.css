@@ -213,7 +213,7 @@
   }
 }
 
-/* Runtime embutido (src/bundled-runtime.js) */
+/* Runtime embutido (src/bundled-runtime.js) — cores via --primary, --secondary, … (applyCssVariables) */
 .eulabs-bundled-widget {
   box-sizing: border-box;
   padding: 1rem;
@@ -222,42 +222,170 @@
   border: 1px solid var(--lightGray, #e6e6e6);
 }
 
-.eulabs-bundled-widget__note {
-  margin: 0 0 1rem;
-  font-size: 0.85rem;
+@media (max-width: 767px) {
+  .eulabs-bundled-widget {
+    padding: 0.75rem;
+  }
+}
+
+.eulabs-bundled-widget__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Linha 1: ida / ida e volta */
+.eulabs-bundled-widget__trip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.eulabs-bundled-widget__trip-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
   color: var(--neutralDark, #4a4a4a);
 }
 
-.eulabs-bundled-widget__row {
-  margin-bottom: 0.75rem;
+.eulabs-bundled-widget__trip-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
 }
 
-.eulabs-bundled-widget__label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-size: 0.875rem;
-  color: var(--neutralDark, #4a4a4a);
-}
-
-.eulabs-bundled-widget__input {
+.eulabs-bundled-widget__trip-disc {
   box-sizing: border-box;
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  color: var(--input-color, #333);
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  border: 2px solid var(--secondary, #253040);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   background: var(--input-background, #fff);
+}
+
+.eulabs-bundled-widget__trip-input:checked + .eulabs-bundled-widget__trip-disc {
+  border-color: var(--secondary, #253040);
+}
+
+.eulabs-bundled-widget__trip-input:checked + .eulabs-bundled-widget__trip-disc::after {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--secondary, #253040);
+}
+
+.eulabs-bundled-widget__trip-input:focus-visible + .eulabs-bundled-widget__trip-disc {
+  outline: 2px solid var(--secondary, #253040);
+  outline-offset: 2px;
+}
+
+/* Linha 2: origem | trocar | destino | datas | botão */
+.eulabs-bundled-widget__toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.eulabs-bundled-widget__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.eulabs-bundled-widget__field-label {
+  font-size: 0.8rem;
+  color: var(--neutralDark, #4a4a4a);
+}
+
+.eulabs-bundled-widget__control {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  padding: 0 0.5rem 0 0.35rem;
   border: 1px solid var(--input-border-color, #4a4a4a);
   border-radius: var(--input-border-radius, 12px);
+  background: var(--input-background, #fff);
 }
 
-.eulabs-bundled-widget__input:hover {
+.eulabs-bundled-widget__control:hover {
   border-color: var(--input-border-color-hover, var(--secondary));
-  background: var(--input-background-color-hover, rgba(37, 48, 64, 0.1));
+  background: var(--input-background-color-hover, var(--transparentSecondary));
+}
+
+.eulabs-bundled-widget__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--secondary, #253040);
+}
+
+.eulabs-bundled-widget__svg {
+  display: block;
+}
+
+.eulabs-bundled-widget__select,
+.eulabs-bundled-widget__input--date {
+  flex: 1 1 0;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--input-color, #333);
+  padding: 0.5rem 0.25rem;
+  font-family: inherit;
+}
+
+.eulabs-bundled-widget__select {
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--secondary) 50%),
+    linear-gradient(135deg, var(--secondary) 50%, transparent 50%);
+  background-position: calc(100% - 0.65rem) 55%, calc(100% - 0.45rem) 55%;
+  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+  background-repeat: no-repeat;
+}
+
+.eulabs-bundled-widget__swap {
+  align-self: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid var(--input-border-color, #4a4a4a);
+  border-radius: var(--input-border-radius, 10px);
+  background: var(--input-background, #fff);
+  color: var(--secondary, #253040);
+}
+
+.eulabs-bundled-widget__swap:hover {
+  border-color: var(--secondary, #253040);
+  background: var(--input-background-color-hover, var(--transparentSecondary));
+}
+
+.eulabs-bundled-widget__swap-inner {
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 .eulabs-bundled-widget__submit {
-  margin-top: 0.5rem;
-  padding: 0.65rem 1.25rem;
+  align-self: stretch;
+  padding: 0.7rem 1.25rem;
   font-size: 1rem;
   cursor: pointer;
   color: var(--submit-button-text-color, #fff);
@@ -268,4 +396,160 @@
 
 .eulabs-bundled-widget__submit:hover {
   background: var(--submit-button-background-color-hover, var(--primaryDark, #f4c5b8));
+}
+
+.eulabs-bundled-widget__field--return-muted {
+  opacity: 0.55;
+}
+
+.eulabs-bundled-widget__gratuity-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.eulabs-bundled-widget__select--wide {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--input-border-color, #4a4a4a);
+  border-radius: var(--input-border-radius, 12px);
+  background: var(--input-background, #fff);
+  font-size: 1rem;
+  color: var(--input-color, #333);
+}
+
+.eulabs-bundled-widget__note {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--neutralDark, #4a4a4a);
+}
+
+.eulabs-bundled-widget__status--error {
+  color: var(--danger, #b00020);
+}
+
+.eulabs-bundled-widget__hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--danger, #b00020);
+}
+
+/* Horizontal: mesma ordem em faixa única em ecrãs largos */
+@media (min-width: 768px) {
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__toolbar {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 0.5rem 0.65rem;
+  }
+
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__field {
+    flex: 1 1 0;
+    min-width: 7rem;
+  }
+
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__swap {
+    align-self: flex-end;
+    margin-bottom: 0.15rem;
+  }
+
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__submit {
+    align-self: flex-end;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    min-height: 2.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__field {
+    min-width: 8.5rem;
+  }
+}
+
+/* Modal horários */
+.eulabs-bundled-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.eulabs-bundled-modal[hidden] {
+  display: none !important;
+}
+
+.eulabs-bundled-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.eulabs-bundled-modal__dialog {
+  position: relative;
+  z-index: 1;
+  max-width: 22rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 1.25rem;
+  background: var(--widget-background-color, #fff);
+  border-radius: var(--input-border-radius, 12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.eulabs-bundled-modal__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--neutralDark, #4a4a4a);
+}
+
+.eulabs-bundled-modal__times {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.eulabs-bundled-modal__slot {
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid var(--input-border-color, #4a4a4a);
+  border-radius: 8px;
+  background: var(--input-background, #fff);
+  color: var(--input-color, #333);
+}
+
+.eulabs-bundled-modal__slot:hover {
+  border-color: var(--secondary, #253040);
+  background: var(--input-background-color-hover, var(--transparentSecondary));
+}
+
+.eulabs-bundled-modal__close {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border: 1px solid var(--lightGray, #e6e6e6);
+  border-radius: 8px;
+  background: var(--input-background, #fff);
+  color: var(--neutralDark, #4a4a4a);
+}
+
+@media (min-width: 768px) {
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-modal__dialog {
+    max-width: 34rem;
+  }
+
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-modal__times {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

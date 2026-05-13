@@ -26,12 +26,18 @@ await new EulabsWidget({
   urlWL: 'https://www.eucatur.com.br/',
   urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
   orientation: 'vertical',
+  cssVariables: {
+    primary: '#253040',
+    secondary: '#253040',
+    primaryDark: '#f4c5b8',
+    transparentSecondary: '#2530401A',
+  },
   labelTexts: {
-    origin: 'Origem?',
-    destination: 'Para onde?',
-    departureDate: 'Ida',
-    returnDate: 'Volta',
-    search: 'Buscar',
+    origin: 'Origem',
+    destination: 'Destino',
+    departureDate: 'Data da ida',
+    returnDate: 'Data da volta',
+    search: 'Pesquisar viagens',
     toggle_go: 'Somente ida',
     toggle_go_and_back: 'Ida e volta',
   },
@@ -43,14 +49,8 @@ await new EulabsWidget({
   tracking: { source: 'undefined', medium: 'undefined', campaign: 'undefined' },
   customOutput: { enable: false, parameter: '', where: 'after' },
   hasRadioButtons: true,
-  gratuity: {
-    enable: true,
-    errorMessage: 'Consulta de gratuidade somente para viagens de ida',
-    optionList: [
-      { default: true, label: 'Passagem comum', value: 'common' },
-      { default: false, label: 'Passagem com benefício', value: 'gratuity' },
-    ],
-  },
+  // gratuity omitido → usa `widget.js` (por defeito `enable: false`, sem select no HTML).
+  // Para mostrar: gratuity: { enable: true, errorMessage: '...', optionList: [...] },
 }).init()
 ```
 
@@ -82,6 +82,16 @@ Ou `runtimeConstructor: () => window['NomeDoConstrutor']` em vez de `runtimeGlob
 
 Inclua `dist/eulabs-widget.umd.js` e `dist/eulabs-widget.css` e use o global **EulabsWidget**.
 
+## Desenvolvimento (sem build)
+
+```bash
+npm install
+npm run dev
+# ou: yarn dev
+```
+
+Abre o endereço indicado no terminal (ex.: `http://localhost:5173/`): o [`index.html`](index.html) importa [`dev/dev-entry.js`](dev/dev-entry.js), que usa o código em **`src/`** com hot reload. A API usa o **proxy** `/api-eucatur` (ver [`vite.config.js`](vite.config.js)) para evitar CORS em desenvolvimento. O arquivo estático [`demo.html`](demo.html) continua disponível em `/demo.html` para testar o UMD/CSS do `dist/` após `npm run build` (aí a API precisa permitir CORS no browser ou usar o mesmo host com proxy no seu servidor).
+
 ## Build da biblioteca
 
 ```bash
@@ -96,18 +106,19 @@ Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.j
 
 | Opção | Descrição |
 |--------|------------|
+| `cssVariables` | `primary`, `secondary`, `primaryDark`, `transparentSecondary` → aplicados em `:root` e usados pelo runtime embutido (ícones, rádios, bordas, botão) |
+| `orientation` | `'vertical'` (padrão) ou `'horizontal'`: layout responsivo do runtime embutido |
 | `target` | Seletor CSS ou `Element` onde o widget será montado |
 | `assets.cssUrl` | Só com runtime externo: URL extra de CSS (opcional se `useDefaultCss: false`) |
 | `assets.jsUrl` | Se vazio, usa runtime **embutido**. Se preenchido, carrega esse script e exige `runtimeGlobal` ou `runtimeConstructor` |
 | `runtimeGlobal` | Com `assets.jsUrl`: nome em `window` do construtor após o script carregar |
 | `runtimeConstructor` | Função que retorna o construtor (substitui `runtimeGlobal`; também pode ser usada sozinha com runtime embutido se quiseres outra classe) |
 | `rootId` | Id do nó interno (padrão: `eulabs-widget-root`) |
-| `cssVariables` | `primary`, `secondary`, `primaryDark`, `transparentSecondary` em `:root` |
-| Demais campos | Repassados ao runtime (`clientId`, `urlWL`, `urlAPI`, `labelTexts`, etc.) |
+| `urlWL` | URL base do **front** (site / white-label): redirecionamentos e contexto do widget |
+| `urlAPI` | URL da **API** (back): dados de seccionamentos, origens/destinos, etc. |
+| `clientId` | Identificador do cliente no ecossistema Eulabs |
+| Outros campos | `theme`, `labelTexts`, `tracking`, … repassados ao runtime. **`gratuity.enable`**: no runtime embutido tem de ser **`true`** (booleano) para o select de gratuidade aparecer; com `false` ou omitido o bloco não é renderizado. |
 
 ## SSR
 
 Use apenas no navegador (código que roda após `document` existir). Em Next/Nuxt, importe dinamicamente com `ssr: false` ou chame dentro de `onMounted` / `useEffect`.
-
-
-https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.3/dist/

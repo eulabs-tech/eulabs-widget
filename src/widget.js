@@ -15,11 +15,11 @@ const DEFAULT_OPTIONS = {
   theme: 'white',
   orientation: 'vertical',
   labelTexts: {
-    origin: 'Origem?',
-    destination: 'Para onde?',
-    departureDate: 'Ida',
-    returnDate: 'Volta',
-    search: 'Buscar',
+    origin: 'Origem',
+    destination: 'Destino',
+    departureDate: 'Data da ida',
+    returnDate: 'Data da volta',
+    search: 'Pesquisar viagens',
     toggle_go: 'Somente ida',
     toggle_go_and_back: 'Ida e volta',
   },
@@ -44,7 +44,7 @@ const DEFAULT_OPTIONS = {
   },
   hasRadioButtons: true,
   gratuity: {
-    enable: true,
+    enable: false,
     errorMessage: 'Consulta de gratuidade somente para viagens de ida',
     optionList: [
       { default: true, label: 'Passagem comum', value: 'common' },
