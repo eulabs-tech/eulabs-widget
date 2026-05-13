@@ -297,6 +297,27 @@
   gap: 0.75rem;
 }
 
+/* Vertical (e base): origem + trocar na mesma linha */
+.eulabs-bundled-widget__origin-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.eulabs-bundled-widget__origin-row .eulabs-bundled-widget__field--origin {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.eulabs-bundled-widget__origin-row .eulabs-bundled-widget__swap {
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin-bottom: 0.15rem;
+}
+
 .eulabs-bundled-widget__field {
   display: flex;
   flex-direction: column;
@@ -404,7 +425,6 @@
 }
 
 .eulabs-bundled-widget__swap {
-  align-self: center;
   width: 2.5rem;
   height: 2.5rem;
   flex-shrink: 0;
@@ -488,14 +508,14 @@
     gap: 0.5rem 0.65rem;
   }
 
-  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__field {
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__origin-row {
     flex: 1 1 0;
     min-width: 7rem;
   }
 
-  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__swap {
-    align-self: flex-end;
-    margin-bottom: 0.15rem;
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__field {
+    flex: 1 1 0;
+    min-width: 7rem;
   }
 
   .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__submit {
@@ -507,6 +527,7 @@
 }
 
 @media (min-width: 1024px) {
+  .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__origin-row,
   .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__field {
     min-width: 8.5rem;
   }

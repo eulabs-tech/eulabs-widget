@@ -17,21 +17,22 @@
           </div>
 
           <div class="eulabs-bundled-widget__toolbar">
-            <div class="eulabs-bundled-widget__field">
-              <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${c(n)}</label>
-              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
-                <span class="eulabs-bundled-widget__icon">${m}</span>
-                <div class="eulabs-bundled-widget__combo-inner">
-                  <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
-                  <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(p)}" />
-                  <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
+            <div class="eulabs-bundled-widget__origin-row">
+              <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--origin">
+                <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${c(n)}</label>
+                <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
+                  <span class="eulabs-bundled-widget__icon">${m}</span>
+                  <div class="eulabs-bundled-widget__combo-inner">
+                    <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
+                    <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(p)}" />
+                    <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
+                  </div>
                 </div>
               </div>
+              <button type="button" class="eulabs-bundled-widget__swap" aria-label="Trocar origem e destino" title="Trocar">
+                <span class="eulabs-bundled-widget__swap-inner" aria-hidden="true">⇄</span>
+              </button>
             </div>
-
-            <button type="button" class="eulabs-bundled-widget__swap" aria-label="Trocar origem e destino" title="Trocar">
-              <span class="eulabs-bundled-widget__swap-inner" aria-hidden="true">⇄</span>
-            </button>
 
             <div class="eulabs-bundled-widget__field">
               <label class="eulabs-bundled-widget__field-label" for="eulabs_dest_text">${c(i)}</label>

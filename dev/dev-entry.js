@@ -15,7 +15,7 @@ try {
     urlWL: 'https://www.eucatur.com.br/',
     /** URL da API (back) para listagem de seccionamentos */
     urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
-    orientation: 'vertical', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
+    orientation: 'horizontal', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
     cssVariables: {
       primary: '#253040',
       secondary: '#253040',
