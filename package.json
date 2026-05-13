@@ -1,6 +1,6 @@
 {
   "name": "eulabs-widget",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Widget de busca Eulabs para uso em qualquer framework ou JavaScript no navegador",
   "repository": {
     "type": "git",
