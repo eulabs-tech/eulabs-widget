@@ -1,10 +1,5 @@
 import EulabsWidget from '../src/index.js'
 
-/** URL do site (front / white-label) */
-const URL_FRONT = 'https://www.eucatur.com.br/'
-/** URL da API (back). Em `npm run dev` o Vite faz proxy de `/api-eucatur` → api-v4.eucatur.com.br */
-const URL_API = '/api-eucatur/sectionals?is_road_station=true'
-
 const mount = document.getElementById('widget-eulabs-wrapper')
 
 function showErr(msg) {
@@ -16,9 +11,11 @@ try {
     target: '#widget-eulabs-wrapper',
     theme: 'white',
     clientId: 10770,
-    urlWL: URL_FRONT,
-    urlAPI: URL_API,
-    orientation: 'horizontal',
+     /** URL do site (front / white-label) */
+    urlWL: 'https://www.eucatur.com.br/',
+    /** URL da API (back) para listagem de seccionamentos */
+    urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
+    orientation: 'vertical', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
     cssVariables: {
       primary: '#253040',
       secondary: '#253040',

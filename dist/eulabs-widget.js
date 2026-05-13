@@ -1,8 +1,7 @@
-const T = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', D = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', $ = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-class x {
-  /** @param {Record<string, unknown>} options */
+const O = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', R = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', q = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+class I {
   constructor(e) {
-    this.options = e, this._mounted = !1, this._abort = null, this._keydownHandler = null;
+    this.options = e, this._mounted = !1, this._abort = null, this._keydownHandler = null, this._sectionals = [];
   }
   init() {
     this._mount();
@@ -17,7 +16,7 @@ class x {
       /** @type {string} */
       this.options.target
     ), t = document.querySelector(e);
-    t && (t.innerHTML = ""), this._mounted = !1;
+    t && (t.innerHTML = ""), this._mounted = !1, this._sectionals = [];
   }
   _mount() {
     if (this._mounted) return;
@@ -29,14 +28,14 @@ class x {
     const s = (
       /** @type {Record<string, string>} */
       this.options.labelTexts && typeof this.options.labelTexts == "object" ? this.options.labelTexts : {}
-    ), n = s.origin ?? "Origem", i = s.destination ?? "Destino", c = s.departureDate ?? "Data da ida", r = s.returnDate ?? "Data da volta", o = s.search ?? "Pesquisar viagens", b = s.toggle_go ?? "Somente ida", m = s.toggle_go_and_back ?? "Ida e volta", d = this.options.gratuity && typeof this.options.gratuity == "object" ? (
+    ), n = s.origin ?? "Origem", i = s.destination ?? "Destino", o = s.departureDate ?? "Data da ida", r = s.returnDate ?? "Data da volta", l = s.search ?? "Pesquisar viagens", u = s.toggle_go ?? "Somente ida", b = s.toggle_go_and_back ?? "Ida e volta", p = "Digite para filtrar cidade, código ou UF…", _ = this.options.gratuity && typeof this.options.gratuity == "object" ? (
       /** @type {{ enable?: boolean; errorMessage?: string; optionList?: Array<{ default?: boolean; label: string; value: string }> }} */
       this.options.gratuity
-    ) : { enable: !1, optionList: [] }, p = d.enable === !0 && Array.isArray(d.optionList) && d.optionList.length > 0, y = p ? d.optionList.map(
-      (f) => `<option value="${u(String(f.value))}"${f.default ? " selected" : ""}>${u(f.label)}</option>`
-    ).join("") : "", h = this.options.orientation === "horizontal" ? "horizontal" : "vertical", v = h === "horizontal" ? "eulabs-bundled-widget--horizontal" : "eulabs-bundled-widget--vertical";
+    ) : { enable: !1, optionList: [] }, h = _.enable === !0 && Array.isArray(_.optionList) && _.optionList.length > 0, m = h ? _.optionList.map(
+      (d) => `<option value="${c(String(d.value))}"${d.default ? " selected" : ""}>${c(d.label)}</option>`
+    ).join("") : "", f = this.options.orientation === "horizontal" ? "horizontal" : "vertical", y = f === "horizontal" ? "eulabs-bundled-widget--horizontal" : "eulabs-bundled-widget--vertical";
     t.innerHTML = `
-      <div class="eulabs-bundled-widget ${v}" role="region" aria-label="Busca de viagens" data-orientation="${h}">
+      <div class="eulabs-bundled-widget ${y}" role="region" aria-label="Busca de viagens" data-orientation="${f}">
         <p class="eulabs-bundled-widget__note eulabs-bundled-widget__status">Carregando seccionamentos…</p>
 
         <div class="eulabs-bundled-widget__main">
@@ -44,23 +43,25 @@ class x {
             <label class="eulabs-bundled-widget__trip-opt">
               <input type="radio" class="eulabs-bundled-widget__trip-input" name="eulabs_trip" value="go" checked />
               <span class="eulabs-bundled-widget__trip-disc" aria-hidden="true"></span>
-              <span class="eulabs-bundled-widget__trip-text">${u(b)}</span>
+              <span class="eulabs-bundled-widget__trip-text">${c(u)}</span>
             </label>
             <label class="eulabs-bundled-widget__trip-opt">
               <input type="radio" class="eulabs-bundled-widget__trip-input" name="eulabs_trip" value="round" />
               <span class="eulabs-bundled-widget__trip-disc" aria-hidden="true"></span>
-              <span class="eulabs-bundled-widget__trip-text">${u(m)}</span>
+              <span class="eulabs-bundled-widget__trip-text">${c(b)}</span>
             </label>
           </div>
 
           <div class="eulabs-bundled-widget__toolbar">
             <div class="eulabs-bundled-widget__field">
-              <span class="eulabs-bundled-widget__field-label">${u(n)}</span>
-              <div class="eulabs-bundled-widget__control">
-                <span class="eulabs-bundled-widget__icon">${T}</span>
-                <select id="eulabs_origin" class="eulabs-bundled-widget__select" name="origin_sectional" required>
-                  <option value="">Carregando…</option>
-                </select>
+              <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${c(n)}</label>
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
+                <span class="eulabs-bundled-widget__icon">${O}</span>
+                <div class="eulabs-bundled-widget__combo-inner">
+                  <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
+                  <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(p)}" />
+                  <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
+                </div>
               </div>
             </div>
 
@@ -69,183 +70,262 @@ class x {
             </button>
 
             <div class="eulabs-bundled-widget__field">
-              <span class="eulabs-bundled-widget__field-label">${u(i)}</span>
-              <div class="eulabs-bundled-widget__control">
-                <span class="eulabs-bundled-widget__icon">${D}</span>
-                <select id="eulabs_dest" class="eulabs-bundled-widget__select" name="dest_sectional" required>
-                  <option value="">Carregando…</option>
-                </select>
+              <label class="eulabs-bundled-widget__field-label" for="eulabs_dest_text">${c(i)}</label>
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
+                <span class="eulabs-bundled-widget__icon">${R}</span>
+                <div class="eulabs-bundled-widget__combo-inner">
+                  <input type="hidden" name="dest_sectional" id="eulabs_dest_id" value="" />
+                  <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${c(p)}" />
+                  <ul class="eulabs-bundled-widget__suggest" id="eulabs_dest_list" role="listbox" hidden></ul>
+                </div>
               </div>
             </div>
 
             <div class="eulabs-bundled-widget__field">
-              <span class="eulabs-bundled-widget__field-label">${u(c)}</span>
+              <span class="eulabs-bundled-widget__field-label">${c(o)}</span>
               <div class="eulabs-bundled-widget__control">
-                <span class="eulabs-bundled-widget__icon">${$}</span>
+                <span class="eulabs-bundled-widget__icon">${q}</span>
                 <input id="eulabs_dep" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date" type="date" name="departure" required />
               </div>
             </div>
 
             <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--return">
-              <span class="eulabs-bundled-widget__field-label">${u(r)}</span>
+              <span class="eulabs-bundled-widget__field-label">${c(r)}</span>
               <div class="eulabs-bundled-widget__control">
-                <span class="eulabs-bundled-widget__icon">${$}</span>
+                <span class="eulabs-bundled-widget__icon">${q}</span>
                 <input id="eulabs_ret" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date" type="date" name="return" />
               </div>
             </div>
 
-            <button type="button" class="eulabs-bundled-widget__submit">${u(o)}</button>
+            <button type="button" class="eulabs-bundled-widget__submit">${c(l)}</button>
           </div>
 
-          ${p ? `<div class="eulabs-bundled-widget__gratuity-row">
+          ${h ? `<div class="eulabs-bundled-widget__gratuity-row">
               <span class="eulabs-bundled-widget__field-label" id="eulabs_gratuity_lbl">Tipo de passagem (gratuidade)</span>
-              <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${y}</select>
+              <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${m}</select>
               <p class="eulabs-bundled-widget__hint eulabs-bundled-widget__gratuity-hint" hidden></p>
             </div>` : ""}
         </div>
-
-        <div class="eulabs-bundled-modal" hidden role="dialog" aria-modal="true" aria-labelledby="eulabs_modal_title">
-          <div class="eulabs-bundled-modal__backdrop" data-close="1"></div>
-          <div class="eulabs-bundled-modal__dialog">
-            <h2 id="eulabs_modal_title" class="eulabs-bundled-modal__title">Selecione o horário</h2>
-            <p class="eulabs-bundled-widget__note">Horários de exemplo — ligue à API real de horas quando existir.</p>
-            <div class="eulabs-bundled-modal__times"></div>
-            <button type="button" class="eulabs-bundled-modal__close" data-close="1">Fechar</button>
-          </div>
-        </div>
       </div>
     `.trim(), this._bindControls(t, {
-      gratuityEnabled: p,
-      gratuityError: String(d.errorMessage ?? "")
+      gratuityEnabled: h,
+      gratuityError: String(_.errorMessage ?? "")
     }), this._loadSectionals(t), this._mounted = !0;
+  }
+  /** @param {Sectional} s */
+  _sectionalLabel(e) {
+    const t = String(e.description ?? ""), s = e.uf_acronym ? String(e.uf_acronym) : "", n = e.code ? String(e.code) : "", i = s ? `${t} (${s})` : t;
+    return n ? `${i} — ${n}` : i;
+  }
+  /** @param {string} q */
+  _filterSectionals(e) {
+    const t = e.trim().toLowerCase();
+    return t ? this._sectionals.filter((s) => [
+      s.description,
+      s.uf_acronym,
+      s.code,
+      String(s.id)
+    ].filter(Boolean).join(" ").toLowerCase().includes(t)).slice(0, 12) : this._sectionals.slice(0, 12);
+  }
+  /**
+   * @param {Element} root
+   * @param {string} listId
+   * @param {Sectional[]} items
+   * @param {(s: Sectional) => void} onPick
+   */
+  _renderSuggestList(e, t, s) {
+    e.innerHTML = "";
+    for (const n of t) {
+      const i = document.createElement("li");
+      i.setAttribute("role", "option"), i.tabIndex = -1, i.dataset.id = String(n.id), i.textContent = this._sectionalLabel(n), i.addEventListener("mousedown", (o) => {
+        o.preventDefault(), s(n);
+      }), e.appendChild(i);
+    }
+  }
+  /** @param {Element} root */
+  _closeSuggest(e) {
+    for (const t of ["eulabs_origin_list", "eulabs_dest_list"]) {
+      const s = e.querySelector(`#${t}`), n = t.replace("_list", "_text"), i = e.querySelector(`#${n}`);
+      s && (s.hidden = !0), i && i.setAttribute("aria-expanded", "false");
+    }
+  }
+  /**
+   * @param {Element} root
+   * @param {'origin' | 'dest'} which
+   */
+  _wireCombo(e, t) {
+    const s = t === "origin" ? "origin" : "dest", n = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector(`#eulabs_${s}_id`)
+    ), i = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector(`#eulabs_${s}_text`)
+    ), o = e.querySelector(`#eulabs_${s}_list`);
+    if (!n || !i || !o) return;
+    const r = () => {
+      if (!this._sectionals.length) return;
+      const l = this._filterSectionals(i.value);
+      this._renderSuggestList(o, l, (u) => {
+        n.value = String(u.id), i.value = this._sectionalLabel(u), o.hidden = !0, i.setAttribute("aria-expanded", "false");
+      }), o.hidden = l.length === 0, i.setAttribute("aria-expanded", o.hidden ? "false" : "true");
+    };
+    i.addEventListener("focus", () => {
+      this._sectionals.length && r();
+    }), i.addEventListener("input", () => {
+      n.value = "", r();
+    }), i.addEventListener("blur", () => {
+      setTimeout(() => {
+        o.hidden = !0, i.setAttribute("aria-expanded", "false");
+      }, 180);
+    });
   }
   /**
    * @param {Element} root
    * @param {{ gratuityEnabled: boolean; gratuityError: string }} ctx
    */
   _bindControls(e, t) {
-    var C;
+    var y;
     const s = e.querySelectorAll('input[name="eulabs_trip"]'), n = e.querySelector(".eulabs-bundled-widget__field--return"), i = (
       /** @type {HTMLInputElement | null} */
       e.querySelector('input[name="return"]')
-    ), c = (
+    ), o = (
       /** @type {HTMLSelectElement | null} */
       e.querySelector("#eulabs_gratuity")
-    ), r = e.querySelector(".eulabs-bundled-widget__gratuity-hint"), o = (
+    ), r = e.querySelector(".eulabs-bundled-widget__gratuity-hint"), l = (
       /** @type {HTMLInputElement | null} */
       e.querySelector('input[name="departure"]')
+    ), u = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_origin_id")
     ), b = (
-      /** @type {HTMLSelectElement | null} */
-      e.querySelector('[name="origin_sectional"]')
-    ), m = (
-      /** @type {HTMLSelectElement | null} */
-      e.querySelector('[name="dest_sectional"]')
-    ), d = e.querySelector(".eulabs-bundled-modal"), p = e.querySelector(".eulabs-bundled-modal__times"), y = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
-    o && (o.min = y), i && (i.min = y), o == null || o.addEventListener("change", () => {
-      i && o.value && (i.min = o.value);
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_dest_id")
+    ), p = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_origin_text")
+    ), _ = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_dest_text")
+    );
+    this._wireCombo(e, "origin"), this._wireCombo(e, "dest");
+    const h = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+    l && (l.min = h), i && (i.min = h), l == null || l.addEventListener("change", () => {
+      i && l.value && (i.min = l.value);
     });
-    const h = () => {
+    const m = () => {
       var g;
-      const a = (
+      const d = (
         /** @type {HTMLInputElement | null} */
         (g = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : g.checked
       );
-      if (n && n.classList.toggle("eulabs-bundled-widget__field--return-muted", !a), i && (i.disabled = !a, i.required = !!a, a ? o != null && o.value && (i.min = o.value) : i.value = ""), t.gratuityEnabled && c && r) {
-        const _ = c.value === "gratuity";
-        a && _ ? (r.textContent = t.gratuityError || "Gratuidade só para viagem de ida.", r.hidden = !1) : (r.hidden = !0, r.textContent = "");
+      if (n && n.classList.toggle("eulabs-bundled-widget__field--return-muted", !d), i && (i.disabled = !d, i.required = !!d, d ? l != null && l.value && (i.min = l.value) : i.value = ""), t.gratuityEnabled && o && r) {
+        const w = o.value === "gratuity";
+        d && w ? (r.textContent = t.gratuityError || "Gratuidade só para viagem de ida.", r.hidden = !1) : (r.hidden = !0, r.textContent = "");
       }
     };
-    s.forEach((a) => a.addEventListener("change", h)), h(), c && c.addEventListener("change", h), (C = e.querySelector(".eulabs-bundled-widget__swap")) == null || C.addEventListener("click", () => {
-      if (!b || !m) return;
-      const a = b.value;
-      b.value = m.value, m.value = a;
-    });
-    const v = ["06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"];
-    p && (p.innerHTML = v.map(
-      (a) => `<button type="button" class="eulabs-bundled-modal__slot" data-hour="${u(a)}">${u(a)}</button>`
-    ).join(""));
-    const f = () => {
-      d && (d.hidden = !1);
-    }, S = () => {
-      d && (d.hidden = !0);
-    };
-    this._keydownHandler = (a) => {
-      a.key === "Escape" && d && !d.hidden && S();
-    }, document.addEventListener("keydown", this._keydownHandler), d == null || d.querySelectorAll("[data-close]").forEach((a) => a.addEventListener("click", S)), p == null || p.addEventListener("click", (a) => {
-      const _ = /** @type {HTMLElement} */ a.target.closest(".eulabs-bundled-modal__slot");
-      if (!_) return;
-      const w = _.getAttribute("data-hour") ?? "", q = String(this.options.urlWL ?? "");
-      if (q) {
-        const L = new URL(q, window.location.href);
-        L.searchParams.set("hour", w), window.location.assign(L.toString());
-      } else
-        S();
-    });
-    const E = e.querySelector(".eulabs-bundled-widget__submit");
-    E == null || E.addEventListener("click", () => {
-      var w;
-      const a = (
-        /** @type {HTMLSelectElement | null} */
-        e.querySelector('[name="origin_sectional"]')
-      ), g = (
-        /** @type {HTMLSelectElement | null} */
-        e.querySelector('[name="dest_sectional"]')
-      ), _ = (
+    s.forEach((d) => d.addEventListener("change", m)), m(), o && o.addEventListener("change", m), (y = e.querySelector(".eulabs-bundled-widget__swap")) == null || y.addEventListener("click", () => {
+      if (!u || !b || !p || !_) return;
+      const d = u.value;
+      u.value = b.value, b.value = d;
+      const g = p.value;
+      p.value = _.value, _.value = g, this._closeSuggest(e);
+    }), this._keydownHandler = (d) => {
+      d.key === "Escape" && this._closeSuggest(e);
+    }, document.addEventListener("keydown", this._keydownHandler);
+    const f = e.querySelector(".eulabs-bundled-widget__submit");
+    f == null || f.addEventListener("click", () => {
+      var k;
+      const d = (
         /** @type {HTMLInputElement | null} */
-        (w = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : w.checked
+        (k = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : k.checked
       );
-      if (!(a != null && a.value) || !(g != null && g.value)) {
-        this._setStatus(e, "Selecione origem e destino.", !0);
+      if (!(u != null && u.value) || !(b != null && b.value)) {
+        this._setStatus(e, "Selecione origem e destino na lista ou continue a digitar até escolher.", !0);
         return;
       }
-      if (a.value === g.value) {
+      if (u.value === b.value) {
         this._setStatus(e, "Origem e destino devem ser diferentes.", !0);
         return;
       }
-      if (!(o != null && o.value)) {
+      if (!(l != null && l.value)) {
         this._setStatus(e, "Indique a data de ida.", !0);
         return;
       }
-      if (_ && !(i != null && i.value)) {
+      if (d && !(i != null && i.value)) {
         this._setStatus(e, "Indique a data de volta.", !0);
         return;
       }
-      if (t.gratuityEnabled && (c == null ? void 0 : c.value) === "gratuity" && _) {
+      if (t.gratuityEnabled && (o == null ? void 0 : o.value) === "gratuity" && d) {
         this._setStatus(e, t.gratuityError || "Gratuidade só para ida.", !0);
         return;
       }
-      this._setStatus(e, "Escolha um horário na janela abaixo.", !1), f();
+      const g = String(this.options.urlWL ?? "").trim();
+      if (!g) {
+        this._setStatus(e, "Configure urlWL (site) para redirecionar após a pesquisa.", !0);
+        return;
+      }
+      const w = this._sectionalById(u.value), E = this._sectionalById(b.value);
+      if (!w || !E) {
+        this._setStatus(e, "Origem ou destino inválido. Volte a escolher na lista.", !0);
+        return;
+      }
+      const x = A(w), C = A(E);
+      if (!x || !C) {
+        this._setStatus(e, "Não foi possível montar o endereço desta rota.", !0);
+        return;
+      }
+      const $ = D(l.value);
+      if (!$) {
+        this._setStatus(e, "Data de ida inválida.", !0);
+        return;
+      }
+      const U = g.endsWith("/") ? g : `${g}/`, j = `comprar-passagem-onibus/${x}/${C}`, v = new URL(j, U);
+      if (v.searchParams.set("data", $), d && (i != null && i.value)) {
+        const L = D(i.value);
+        if (!L) {
+          this._setStatus(e, "Data de volta inválida.", !0);
+          return;
+        }
+        v.searchParams.set("volta", L);
+      }
+      window.location.assign(v.href);
     });
+  }
+  /** @param {string} id */
+  _sectionalById(e) {
+    const t = Number(e);
+    return Number.isFinite(t) ? this._sectionals.find((s) => Number(s.id) === t) ?? null : null;
   }
   /**
    * @param {Element} root
    * @param {string} msg
-   * @param {boolean} isError
+   * @param {boolean} [isError]
    */
-  _setStatus(e, t, s) {
+  _setStatus(e, t, s = !1) {
     const n = e.querySelector(".eulabs-bundled-widget__status");
-    n && (n.textContent = t, n.classList.toggle("eulabs-bundled-widget__status--error", s));
+    n && (n.textContent = t, n.classList.toggle("eulabs-bundled-widget__status--error", !!s));
   }
   /** @param {Element} root */
   async _loadSectionals(e) {
-    var c;
+    var o;
     const t = String(this.options.urlAPI ?? ""), s = (
-      /** @type {HTMLSelectElement | null} */
-      e.querySelector('[name="origin_sectional"]')
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_origin_text")
     ), n = (
-      /** @type {HTMLSelectElement | null} */
-      e.querySelector('[name="dest_sectional"]')
+      /** @type {HTMLInputElement | null} */
+      e.querySelector("#eulabs_dest_text")
     );
     if (!t || !s || !n) {
       this._setStatus(e, "Sem urlAPI configurada.", !0);
       return;
     }
-    (c = this._abort) == null || c.abort(), this._abort = new AbortController();
+    (o = this._abort) == null || o.abort(), this._abort = new AbortController();
     const i = (r) => {
-      const o = `<option value="">${r.length ? "Selecione…" : "Sem dados"}</option>` + r.map(
-        (b) => `<option value="${b.id}">${u(b.description)}${b.uf_acronym ? ` (${u(b.uf_acronym)})` : ""}</option>`
-      ).join("");
-      s.innerHTML = o, n.innerHTML = o, this._setStatus(e, `${r.length} seccionamento(s) carregado(s).`, !1);
+      this._sectionals = r, s.placeholder = r.length ? "Digite para filtrar…" : "Sem seccionamentos", n.placeholder = r.length ? "Digite para filtrar…" : "Sem seccionamentos", this._setStatus(
+        e,
+        r.length ? "" : "Nenhum seccionamento.",
+        !r.length
+      );
     };
     try {
       const r = await fetch(t, {
@@ -254,72 +334,88 @@ class x {
         headers: { Accept: "application/json" }
       });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const o = await r.json();
-      if (!Array.isArray(o)) throw new Error("Resposta não é um array");
+      const l = await r.json();
+      if (!Array.isArray(l)) throw new Error("Resposta não é um array");
       i(
         /** @type {Sectional[]} */
-        o
+        l
       );
     } catch (r) {
       if (
         /** @type {Error} */
         r.name === "AbortError"
       ) return;
-      console.error(r), s.innerHTML = '<option value="">Erro ao carregar</option>', n.innerHTML = '<option value="">Erro ao carregar</option>', this._setStatus(
+      console.error(r), this._sectionals = [], s.placeholder = "Erro ao carregar", n.placeholder = "Erro ao carregar", this._setStatus(
         e,
-        "Não foi possível obter seccionamentos (rede ou CORS). Em dev, use proxy no Vite ou extensão só para testes.",
+        "Não foi possível obter seccionamentos (rede ou CORS). Em dev, use proxy no Vite.",
         !0
       );
     }
   }
 }
-function u(l) {
-  return String(l).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function c(a) {
+  return String(a).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
-function k(l, e) {
-  if (!e || typeof e != "object") return l;
+function D(a) {
+  const e = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(a).trim());
+  return e ? `${e[3]}-${e[2]}-${e[1]}` : "";
+}
+function H(a) {
+  return String(a || "").normalize("NFD").replace(new RegExp("\\p{M}", "gu"), "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+function A(a) {
+  const e = a.slug != null ? String(a.slug).trim() : "";
+  if (e) {
+    const n = e.toLowerCase().replace(/[^a-z0-9-]/g, "");
+    if (n) return n;
+  }
+  const t = H(String(a.description ?? "")), s = String(a.uf_acronym ?? "").trim().toLowerCase().replace(/[^a-z]/g, "");
+  return !t && !s ? "" : s ? t ? `${t}-${s}` : s : t;
+}
+function S(a, e) {
+  if (!e || typeof e != "object") return a;
   for (const t of Object.keys(e)) {
-    const s = e[t], n = l[t];
-    s && typeof s == "object" && !Array.isArray(s) ? n && typeof n == "object" && !Array.isArray(n) ? k(
+    const s = e[t], n = a[t];
+    s && typeof s == "object" && !Array.isArray(s) ? n && typeof n == "object" && !Array.isArray(n) ? S(
       /** @type {Record<string, unknown>} */
       n,
       /** @type {Record<string, unknown>} */
       s
-    ) : l[t] = k(
+    ) : a[t] = S(
       {},
       /** @type {Record<string, unknown>} */
       /** @type {unknown} */
       s
-    ) : l[t] = s;
+    ) : a[t] = s;
   }
-  return l;
+  return a;
 }
-function j(l) {
-  const e = typeof l == "string" ? document.querySelector(l) : l;
+function P(a) {
+  const e = typeof a == "string" ? document.querySelector(a) : a;
   if (!e) throw new Error("EulabsWidget: target não encontrado");
   return e;
 }
-function H(l) {
+function B(a) {
   return new Promise((e) => {
-    if (!l) {
+    if (!a) {
       e();
       return;
     }
-    if (document.querySelector(`link[href="${l}"]`)) {
+    if (document.querySelector(`link[href="${a}"]`)) {
       e();
       return;
     }
     const t = document.createElement("link");
-    t.rel = "stylesheet", t.href = l, t.onload = () => e(), t.onerror = () => e(), document.head.appendChild(t);
+    t.rel = "stylesheet", t.href = a, t.onload = () => e(), t.onerror = () => e(), document.head.appendChild(t);
   });
 }
-function M(l) {
+function N(a) {
   return new Promise((e, t) => {
-    if (!l) {
+    if (!a) {
       t(new Error("EulabsWidget: jsUrl do runtime é obrigatório em assets.jsUrl"));
       return;
     }
-    const s = document.querySelector(`script[src="${l}"]`);
+    const s = document.querySelector(`script[src="${a}"]`);
     if (s) {
       const i = () => e();
       if (s.getAttribute("data-loaded") === "true") {
@@ -332,12 +428,12 @@ function M(l) {
       return;
     }
     const n = document.createElement("script");
-    n.src = l, n.async = !0, n.onload = () => {
+    n.src = a, n.async = !0, n.onload = () => {
       n.setAttribute("data-loaded", "true"), e();
     }, n.onerror = () => t(new Error("EulabsWidget: falha ao carregar script")), document.body.appendChild(n);
   });
 }
-const A = "eulabs-widget-root", U = {
+const T = "eulabs-widget-root", M = {
   theme: "white",
   orientation: "vertical",
   labelTexts: {
@@ -381,7 +477,7 @@ const A = "eulabs-widget-root", U = {
     cssUrl: "",
     jsUrl: ""
   },
-  rootId: A,
+  rootId: T,
   cssVariables: {
     primary: "#253040",
     secondary: "#253040",
@@ -389,12 +485,12 @@ const A = "eulabs-widget-root", U = {
     transparentSecondary: "#2530401A"
   }
 };
-class R {
+class W {
   /**
    * @param {Record<string, unknown>} [options]
    */
   constructor(e = {}) {
-    this.options = k(structuredClone(U), e), this.instance = null, this._mountEl = null, this._targetEl = null;
+    this.options = S(structuredClone(M), e), this.instance = null, this._mountEl = null, this._targetEl = null;
   }
   /**
    * Inicializa o widget (carrega assets, monta e liga o runtime).
@@ -423,15 +519,15 @@ class R {
   }
   async loadAssets() {
     const e = this.options.assets, t = typeof (e == null ? void 0 : e.cssUrl) == "string" ? e.cssUrl : "", s = typeof (e == null ? void 0 : e.jsUrl) == "string" ? e.jsUrl : "";
-    this.options.useDefaultCss !== !1 && t && await H(t), s && await M(s);
+    this.options.useDefaultCss !== !1 && t && await B(t), s && await N(s);
   }
   render() {
-    const e = j(
+    const e = P(
       /** @type {string | Element} */
       this.options.target
     );
     this._targetEl = e;
-    const t = typeof this.options.rootId == "string" ? this.options.rootId : A;
+    const t = typeof this.options.rootId == "string" ? this.options.rootId : T;
     e.innerHTML = `<div id="${t}" class="eulabs-widget-root"></div>`, this._mountEl = document.getElementById(t);
     const s = this.resolveRuntimeConstructor(), i = {
       target: `#${t}`,
@@ -462,7 +558,7 @@ class R {
     if (!(typeof ((s = this.options.assets) == null ? void 0 : s.jsUrl) == "string" ? this.options.assets.jsUrl : ""))
       return (
         /** @type {new (opts: object) => RuntimeInstance} */
-        x
+        I
       );
     const t = this.options.runtimeGlobal;
     if (typeof t == "string" && t && typeof window[
@@ -487,5 +583,5 @@ class R {
   }
 }
 export {
-  R as default
+  W as default
 };

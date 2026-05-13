@@ -54,20 +54,16 @@
           return
         }
 
-        // URL do site (front / white-label) — redirecionamentos e links do widget
-        const URL_FRONT = 'https://www.eucatur.com.br/'
-        // URL da API (back). Se o browser bloquear (CORS), sirva o demo pelo Vite com proxy ou configure CORS na API.
-        const URL_API =
-          'https://api-v4.eucatur.com.br/sectionals?is_road_station=true'
-
         try {
           await new Loader({
             target: '#widget-eulabs-wrapper',
             theme: 'white',
             clientId: 10770,
-            urlWL: URL_FRONT,
-            urlAPI: URL_API,
-            orientation: 'horizontal',
+            // URL do site (front / white-label) — redirecionamentos e links do widget
+            urlWL: 'https://www.eucatur.com.br/',
+            /** URL da API (back) para listagem de seccionamentos */
+            urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
+            orientation: 'horizontal', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
             cssVariables: {
               primary: '#253040',
               secondary: '#253040',
@@ -82,6 +78,13 @@
             tracking: { source: 'undefined', medium: 'undefined', campaign: 'undefined' },
             customOutput: { enable: false, parameter: '', where: 'after' },
             hasRadioButtons: true,
+            // gratuity: {
+              //   errorMessage: 'Consulta de gratuidade somente para viagens de ida',
+              //   optionList: [
+              //     { default: true, label: 'Passagem comum', value: 'common' },
+              //     { default: false, label: 'Passagem com benefício', value: 'gratuity' },
+              //   ],
+            // },
           }).init()
         } catch (e) {
           console.error(e)

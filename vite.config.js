@@ -6,14 +6,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   server: {
-    proxy: {
-      // Evita CORS no `npm run dev`: use `/api-eucatur/...` como URL_API no dev-entry
-      '/api-eucatur': {
-        target: 'https://api-v4.eucatur.com.br',
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api-eucatur/, ''),
-      },
-    },
   },
   build: {
     lib: {
