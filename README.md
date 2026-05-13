@@ -108,3 +108,6 @@ Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.j
 ## SSR
 
 Use apenas no navegador (código que roda após `document` existir). Em Next/Nuxt, importe dinamicamente com `ssr: false` ou chame dentro de `onMounted` / `useEffect`.
+
+
+https://cdn.jsdelivr.net/npm/eulabs-widget@1.0.3/dist/
