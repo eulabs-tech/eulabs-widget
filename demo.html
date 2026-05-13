@@ -37,7 +37,7 @@
 
     <div id="widget-eulabs-wrapper"></div>
 
-    <script defer src="./dist/eulabs-widget.umd.cjs"></script>
+    <script defer src="./dist/eulabs-widget.umd.js"></script>
     <script defer>
       ;(async function () {
         const mount = document.getElementById('widget-eulabs-wrapper')
@@ -49,7 +49,7 @@
         const Loader = window.EulabsWidget
         if (typeof Loader !== 'function') {
           showErr(
-            'O UMD não carregou (<code>window.EulabsWidget</code> ausente). Confirme <code>npm run build</code> e o caminho <code>./dist/eulabs-widget.umd.cjs</code>.'
+            'O UMD não carregou (<code>window.EulabsWidget</code> ausente). Confirme <code>npm run build</code>, o caminho <code>./dist/eulabs-widget.umd.js</code> e abra via servidor HTTP (ex.: <code>npx serve .</code>), não <code>file://</code>.'
           )
           return
         }

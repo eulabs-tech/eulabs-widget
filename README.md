@@ -12,7 +12,7 @@ npm install eulabs-widget
 
 ## Página de demonstração
 
-O arquivo [`demo.html`](demo.html) usa apenas `./dist/eulabs-widget.css` e `./dist/eulabs-widget.umd.cjs` (runtime embutido). Rode `npm run build` e `npx serve .` na raiz e abra `/demo.html`.
+O arquivo [`demo.html`](demo.html) usa apenas `./dist/eulabs-widget.css` e `./dist/eulabs-widget.umd.js` (runtime embutido). Rode `npm run build` e `npx serve .` na raiz e abra `/demo.html` (evite `file://`: caminhos relativos ao `./dist/` falham).
 
 ## Uso (ESM) — modo embutido (padrão)
 
@@ -80,7 +80,7 @@ Ou `runtimeConstructor: () => window['NomeDoConstrutor']` em vez de `runtimeGlob
 
 ## Uso (HTML + UMD)
 
-Inclua `dist/eulabs-widget.umd.cjs` e `dist/eulabs-widget.css` e use o global **EulabsWidget**.
+Inclua `dist/eulabs-widget.umd.js` e `dist/eulabs-widget.css` e use o global **EulabsWidget**.
 
 ## Build da biblioteca
 
@@ -90,7 +90,7 @@ npm install
 npm run build
 ```
 
-Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.cjs`) e CSS (`eulabs-widget.css`).
+Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.js`) e CSS (`eulabs-widget.css`).
 
 ## Opções principais
 
