@@ -10,22 +10,32 @@ Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em 
 npm install eulabs-widget
 ```
 
+## Página de demonstração
+
+No repositório existe o arquivo [`demo.html`](demo.html): exemplo em HTML que inclui o CSS/UMD do pacote (via jsDelivr, equivalente ao que você obtém com `npm i eulabs-widget`) e monta o widget. Edite no script as variáveis `RUNTIME_JS`, `RUNTIME_CSS` e `RUNTIME_GLOBAL` e rode `npx serve .` na raiz do repositório (ou outro servidor estático) para testar caminhos absolutos (`/…`).
+
 ## Uso (ESM)
 
 ```javascript
 import EulabsWidget from 'eulabs-widget'
 
+// Runtime servido pelo próprio projeto (ex.: arquivos em `public/eulabs-runtime/`
+// no Vite, ou `public/` no Next). `BASE_URL` cobre deploy em subpasta.
+const base = typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL
+  ? import.meta.env.BASE_URL
+  : '/'
+
 await new EulabsWidget({
   target: '#widget-eulabs-wrapper',
   assets: {
-    cssUrl: 'https://exemplo.com/caminho/para/widget.min.css',
-    jsUrl: 'https://exemplo.com/caminho/para/widget.min.js',
+    cssUrl: `${base}eulabs-runtime/widget.min.css`,
+    jsUrl: `${base}eulabs-runtime/widget.min.js`,
   },
   runtimeGlobal: 'NomeDoConstrutorNoWindow',
   theme: 'white',
   clientId: 10770,
-  urlWL: 'https://seudominio.com.br/',
-  urlAPI: 'https://seudominio.com.br/',
+  urlWL: 'https://www.eucatur.com.br/',
+  urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
   orientation: 'vertical',
   labelTexts: {
     origin: 'Origem?',
@@ -54,6 +64,8 @@ await new EulabsWidget({
   },
 }).init()
 ```
+
+Coloque o CSS/JS minificados do **runtime** nessa pasta estática do seu app (não confundir com o bundle `eulabs-widget` do npm). Também pode usar URLs absolutas (`https://cdn...`) se preferir.
 
 ### Alternativa ao `runtimeGlobal`
 

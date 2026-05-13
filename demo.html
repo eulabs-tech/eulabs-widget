@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — eulabs-widget</title>
+    <!-- Estilos do pacote npm (fachada + tema base) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/eulabs-widget/dist/eulabs-widget.css"
+    />
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 1.5rem;
+        background: #f5f5f5;
+      }
+      .hint {
+        max-width: 42rem;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        background: #fff8e6;
+        border: 1px solid #e6d08a;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+      #widget-eulabs-wrapper {
+        max-width: 48rem;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="hint">
+      Edite no script abaixo as variáveis <strong>RUNTIME_JS</strong>,
+      <strong>RUNTIME_CSS</strong> e <strong>RUNTIME_GLOBAL</strong> com os valores reais do
+      seu runtime (o script que expõe o construtor em <code>window</code>). Abra esta página
+      através de um servidor HTTP (ex.: <code>npx serve .</code>) se os teus assets forem
+      relativos à origem.
+    </p>
+
+    <div id="widget-eulabs-wrapper"></div>
+
+    <!-- Build UMD do pacote: global window.EulabsWidget -->
+    <script src="https://cdn.jsdelivr.net/npm/eulabs-widget/dist/eulabs-widget.umd.cjs"></script>
+    <script>
+      ;(async function () {
+        const RUNTIME_JS = '/eulabs-runtime/widget.min.js'
+        const RUNTIME_CSS = '/eulabs-runtime/widget.min.css'
+        const RUNTIME_GLOBAL = 'NomeDoConstrutorNoWindow'
+
+        /** Caminho relativo à página ou absoluto (/) ou URL completa https://… */
+        function absUrl(u) {
+          if (!u) return u
+          if (/^https?:\/\//i.test(u)) return u
+          if (u.startsWith('/')) return window.location.origin + u
+          return new URL(u, window.location.href).href
+        }
+
+        const cssUrl = absUrl(RUNTIME_CSS)
+        const jsUrl = absUrl(RUNTIME_JS)
+
+        try {
+          await new EulabsWidget({
+            target: '#widget-eulabs-wrapper',
+            assets: {
+              cssUrl,
+              jsUrl,
+            },
+            runtimeGlobal: RUNTIME_GLOBAL,
+            theme: 'white',
+            clientId: 10770,
+            urlWL: 'https://seudominio.com.br/',
+            urlAPI: 'https://seudominio.com.br/',
+            orientation: 'vertical',
+            labelTexts: {
+              origin: 'Origem?',
+              destination: 'Para onde?',
+              departureDate: 'Ida',
+              returnDate: 'Volta',
+              search: 'Buscar',
+              toggle_go: 'Somente ida',
+              toggle_go_and_back: 'Ida e volta',
+            },
+            calendarReposition: true,
+            calendarNumberMonths: 2,
+            useDefaultCss: true,
+            customCss: null,
+            customHeading: { enable: false, tag: null, content: null },
+            tracking: { source: 'undefined', medium: 'undefined', campaign: 'undefined' },
+            customOutput: { enable: false, parameter: '', where: 'after' },
+            hasRadioButtons: true,
+            gratuity: {
+              enable: true,
+              errorMessage: 'Consulta de gratuidade somente para viagens de ida',
+              optionList: [
+                { default: true, label: 'Passagem comum', value: 'common' },
+                { default: false, label: 'Passagem com benefício', value: 'gratuity' },
+              ],
+            },
+          }).init()
+        } catch (e) {
+          console.error(e)
+          document.getElementById('widget-eulabs-wrapper').innerHTML =
+            '<p style="color:#b00020">Erro ao iniciar o widget: ' +
+            (e && e.message ? e.message : String(e)) +
+            '</p>'
+        }
+      })()
+    </script>
+  </body>
+</html>
