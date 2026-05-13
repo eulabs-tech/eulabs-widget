@@ -1,0 +1,37 @@
+{
+  "name": "eulabs-widget",
+  "version": "1.0.0",
+  "description": "Widget de busca Eulabs para uso em qualquer framework ou JavaScript no navegador",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eulabs-tech/eulabs-widget.git"
+  },
+  "homepage": "https://github.com/eulabs-tech/eulabs-widget#readme",
+  "bugs": {
+    "url": "https://github.com/eulabs-tech/eulabs-widget/issues"
+  },
+  "type": "module",
+  "main": "./dist/eulabs-widget.umd.cjs",
+  "module": "./dist/eulabs-widget.js",
+  "exports": {
+    ".": {
+      "import": "./dist/eulabs-widget.js",
+      "require": "./dist/eulabs-widget.umd.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [
+    "eulabs",
+    "widget",
+    "busca"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
