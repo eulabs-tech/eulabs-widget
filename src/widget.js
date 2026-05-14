@@ -22,6 +22,8 @@ const DEFAULT_OPTIONS = {
     search: 'Pesquisar viagens',
     toggle_go: 'Somente ida',
     toggle_go_and_back: 'Ida e volta',
+    clear_origin: 'Limpar origem',
+    clear_destination: 'Limpar destino',
   },
   calendarReposition: true,
   calendarNumberMonths: 2,

@@ -377,11 +377,49 @@
   flex: 1 1 0;
   min-width: 0;
   display: flex;
-  align-items: stretch;
+  align-items: center;
 }
 
 .eulabs-bundled-widget__input--combo {
   width: 100%;
+}
+
+.eulabs-bundled-widget__combo-clear {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  margin: 0 0.1rem 0 0.15rem;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--neutralDark, #4a4a4a);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.eulabs-bundled-widget__combo-clear-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.eulabs-bundled-widget__combo-clear:hover {
+  color: var(--secondary, #253040);
+  background: var(--input-background-color-hover, var(--transparentSecondary));
+}
+
+.eulabs-bundled-widget__combo-clear:focus-visible {
+  outline: 2px solid var(--secondary, #253040);
+  outline-offset: 1px;
+}
+
+.eulabs-bundled-widget__combo-clear[hidden] {
+  display: none !important;
 }
 
 .eulabs-bundled-widget__suggest {

@@ -1,5 +1,5 @@
-const O = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', R = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', q = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-class I {
+const U = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', R = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', q = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+class H {
   constructor(e) {
     this.options = e, this._mounted = !1, this._abort = null, this._keydownHandler = null, this._sectionals = [];
   }
@@ -28,14 +28,14 @@ class I {
     const s = (
       /** @type {Record<string, string>} */
       this.options.labelTexts && typeof this.options.labelTexts == "object" ? this.options.labelTexts : {}
-    ), n = s.origin ?? "Origem", i = s.destination ?? "Destino", o = s.departureDate ?? "Data da ida", r = s.returnDate ?? "Data da volta", l = s.search ?? "Pesquisar viagens", u = s.toggle_go ?? "Somente ida", b = s.toggle_go_and_back ?? "Ida e volta", p = "Digite para filtrar cidade, código ou UF…", _ = this.options.gratuity && typeof this.options.gratuity == "object" ? (
+    ), n = s.origin ?? "Origem", i = s.destination ?? "Destino", l = s.departureDate ?? "Data da ida", r = s.returnDate ?? "Data da volta", o = s.search ?? "Pesquisar viagens", u = s.toggle_go ?? "Somente ida", b = s.toggle_go_and_back ?? "Ida e volta", f = s.clear_origin ?? "Limpar origem", m = s.clear_destination ?? "Limpar destino", y = "De onde você vai sair?", g = this.options.gratuity && typeof this.options.gratuity == "object" ? (
       /** @type {{ enable?: boolean; errorMessage?: string; optionList?: Array<{ default?: boolean; label: string; value: string }> }} */
       this.options.gratuity
-    ) : { enable: !1, optionList: [] }, h = _.enable === !0 && Array.isArray(_.optionList) && _.optionList.length > 0, m = h ? _.optionList.map(
-      (d) => `<option value="${c(String(d.value))}"${d.default ? " selected" : ""}>${c(d.label)}</option>`
-    ).join("") : "", f = this.options.orientation === "horizontal" ? "horizontal" : "vertical", y = f === "horizontal" ? "eulabs-bundled-widget--horizontal" : "eulabs-bundled-widget--vertical";
+    ) : { enable: !1, optionList: [] }, h = g.enable === !0 && Array.isArray(g.optionList) && g.optionList.length > 0, v = h ? g.optionList.map(
+      (p) => `<option value="${c(String(p.value))}"${p.default ? " selected" : ""}>${c(p.label)}</option>`
+    ).join("") : "", d = this.options.orientation === "horizontal" ? "horizontal" : "vertical", _ = d === "horizontal" ? "eulabs-bundled-widget--horizontal" : "eulabs-bundled-widget--vertical";
     t.innerHTML = `
-      <div class="eulabs-bundled-widget ${y}" role="region" aria-label="Busca de viagens" data-orientation="${f}">
+      <div class="eulabs-bundled-widget ${_}" role="region" aria-label="Busca de viagens" data-orientation="${d}">
         <p class="eulabs-bundled-widget__note eulabs-bundled-widget__status">Carregando seccionamentos…</p>
 
         <div class="eulabs-bundled-widget__main">
@@ -57,10 +57,11 @@ class I {
               <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--origin">
                 <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${c(n)}</label>
                 <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
-                  <span class="eulabs-bundled-widget__icon">${O}</span>
+                  <span class="eulabs-bundled-widget__icon">${U}</span>
                   <div class="eulabs-bundled-widget__combo-inner">
                     <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
-                    <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(p)}" />
+                    <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(y)}" />
+                    <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_origin_clear" aria-label="${c(f)}" title="${c(f)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                     <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
                   </div>
                 </div>
@@ -76,14 +77,15 @@ class I {
                 <span class="eulabs-bundled-widget__icon">${R}</span>
                 <div class="eulabs-bundled-widget__combo-inner">
                   <input type="hidden" name="dest_sectional" id="eulabs_dest_id" value="" />
-                  <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${c(p)}" />
+                  <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${c(y)}" />
+                  <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_dest_clear" aria-label="${c(m)}" title="${c(m)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                   <ul class="eulabs-bundled-widget__suggest" id="eulabs_dest_list" role="listbox" hidden></ul>
                 </div>
               </div>
             </div>
 
             <div class="eulabs-bundled-widget__field">
-              <span class="eulabs-bundled-widget__field-label">${c(o)}</span>
+              <span class="eulabs-bundled-widget__field-label">${c(l)}</span>
               <div class="eulabs-bundled-widget__control">
                 <span class="eulabs-bundled-widget__icon">${q}</span>
                 <input id="eulabs_dep" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date" type="date" name="departure" required />
@@ -98,19 +100,19 @@ class I {
               </div>
             </div>
 
-            <button type="button" class="eulabs-bundled-widget__submit">${c(l)}</button>
+            <button type="button" class="eulabs-bundled-widget__submit">${c(o)}</button>
           </div>
 
           ${h ? `<div class="eulabs-bundled-widget__gratuity-row">
               <span class="eulabs-bundled-widget__field-label" id="eulabs_gratuity_lbl">Tipo de passagem (gratuidade)</span>
-              <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${m}</select>
+              <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${v}</select>
               <p class="eulabs-bundled-widget__hint eulabs-bundled-widget__gratuity-hint" hidden></p>
             </div>` : ""}
         </div>
       </div>
     `.trim(), this._bindControls(t, {
       gratuityEnabled: h,
-      gratuityError: String(_.errorMessage ?? "")
+      gratuityError: String(g.errorMessage ?? "")
     }), this._loadSectionals(t), this._mounted = !0;
   }
   /** @param {Sectional} s */
@@ -138,8 +140,8 @@ class I {
     e.innerHTML = "";
     for (const n of t) {
       const i = document.createElement("li");
-      i.setAttribute("role", "option"), i.tabIndex = -1, i.dataset.id = String(n.id), i.textContent = this._sectionalLabel(n), i.addEventListener("mousedown", (o) => {
-        o.preventDefault(), s(n);
+      i.setAttribute("role", "option"), i.tabIndex = -1, i.dataset.id = String(n.id), i.textContent = this._sectionalLabel(n), i.addEventListener("mousedown", (l) => {
+        l.preventDefault(), s(n);
       }), e.appendChild(i);
     }
   }
@@ -154,6 +156,22 @@ class I {
    * @param {Element} root
    * @param {'origin' | 'dest'} which
    */
+  _syncComboClear(e, t) {
+    const s = t === "origin" ? "origin" : "dest", n = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector(`#eulabs_${s}_id`)
+    ), i = (
+      /** @type {HTMLInputElement | null} */
+      e.querySelector(`#eulabs_${s}_text`)
+    ), l = e.querySelector(`#eulabs_${s}_clear`);
+    if (!n || !i || !l) return;
+    const r = !!(String(n.value).trim() || i.value.trim());
+    l.hidden = !r;
+  }
+  /**
+   * @param {Element} root
+   * @param {'origin' | 'dest'} which
+   */
   _wireCombo(e, t) {
     const s = t === "origin" ? "origin" : "dest", n = (
       /** @type {HTMLInputElement | null} */
@@ -161,23 +179,27 @@ class I {
     ), i = (
       /** @type {HTMLInputElement | null} */
       e.querySelector(`#eulabs_${s}_text`)
-    ), o = e.querySelector(`#eulabs_${s}_list`);
-    if (!n || !i || !o) return;
-    const r = () => {
+    ), l = e.querySelector(`#eulabs_${s}_list`), r = e.querySelector(`#eulabs_${s}_clear`);
+    if (!n || !i || !l) return;
+    const o = () => {
       if (!this._sectionals.length) return;
-      const l = this._filterSectionals(i.value);
-      this._renderSuggestList(o, l, (u) => {
-        n.value = String(u.id), i.value = this._sectionalLabel(u), o.hidden = !0, i.setAttribute("aria-expanded", "false");
-      }), o.hidden = l.length === 0, i.setAttribute("aria-expanded", o.hidden ? "false" : "true");
+      const u = this._filterSectionals(i.value);
+      this._renderSuggestList(l, u, (b) => {
+        n.value = String(b.id), i.value = this._sectionalLabel(b), l.hidden = !0, i.setAttribute("aria-expanded", "false"), this._syncComboClear(e, t);
+      }), l.hidden = u.length === 0, i.setAttribute("aria-expanded", l.hidden ? "false" : "true"), this._syncComboClear(e, t);
     };
     i.addEventListener("focus", () => {
-      this._sectionals.length && r();
+      this._sectionals.length ? o() : this._syncComboClear(e, t);
     }), i.addEventListener("input", () => {
-      n.value = "", r();
+      n.value = "", o();
     }), i.addEventListener("blur", () => {
       setTimeout(() => {
-        o.hidden = !0, i.setAttribute("aria-expanded", "false");
+        l.hidden = !0, i.setAttribute("aria-expanded", "false");
       }, 180);
+    }), r == null || r.addEventListener("mousedown", (u) => {
+      u.preventDefault();
+    }), r == null || r.addEventListener("click", () => {
+      n.value = "", i.value = "", l.innerHTML = "", l.hidden = !0, i.setAttribute("aria-expanded", "false"), this._syncComboClear(e, t), i.focus();
     });
   }
   /**
@@ -185,14 +207,14 @@ class I {
    * @param {{ gratuityEnabled: boolean; gratuityError: string }} ctx
    */
   _bindControls(e, t) {
-    var y;
+    var v;
     const s = e.querySelectorAll('input[name="eulabs_trip"]'), n = e.querySelector(".eulabs-bundled-widget__field--return"), i = (
       /** @type {HTMLInputElement | null} */
       e.querySelector('input[name="return"]')
-    ), o = (
+    ), l = (
       /** @type {HTMLSelectElement | null} */
       e.querySelector("#eulabs_gratuity")
-    ), r = e.querySelector(".eulabs-bundled-widget__gratuity-hint"), l = (
+    ), r = e.querySelector(".eulabs-bundled-widget__gratuity-hint"), o = (
       /** @type {HTMLInputElement | null} */
       e.querySelector('input[name="departure"]')
     ), u = (
@@ -201,44 +223,44 @@ class I {
     ), b = (
       /** @type {HTMLInputElement | null} */
       e.querySelector("#eulabs_dest_id")
-    ), p = (
+    ), f = (
       /** @type {HTMLInputElement | null} */
       e.querySelector("#eulabs_origin_text")
-    ), _ = (
+    ), m = (
       /** @type {HTMLInputElement | null} */
       e.querySelector("#eulabs_dest_text")
     );
     this._wireCombo(e, "origin"), this._wireCombo(e, "dest");
-    const h = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
-    l && (l.min = h), i && (i.min = h), l == null || l.addEventListener("change", () => {
-      i && l.value && (i.min = l.value);
+    const y = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+    o && (o.min = y), i && (i.min = y), o == null || o.addEventListener("change", () => {
+      i && o.value && (i.min = o.value);
     });
-    const m = () => {
-      var g;
+    const g = () => {
+      var _;
       const d = (
         /** @type {HTMLInputElement | null} */
-        (g = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : g.checked
+        (_ = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : _.checked
       );
-      if (n && n.classList.toggle("eulabs-bundled-widget__field--return-muted", !d), i && (i.disabled = !d, i.required = !!d, d ? l != null && l.value && (i.min = l.value) : i.value = ""), t.gratuityEnabled && o && r) {
-        const w = o.value === "gratuity";
-        d && w ? (r.textContent = t.gratuityError || "Gratuidade só para viagem de ida.", r.hidden = !1) : (r.hidden = !0, r.textContent = "");
+      if (n && n.classList.toggle("eulabs-bundled-widget__field--return-muted", !d), i && (i.disabled = !d, i.required = !!d, d ? o != null && o.value && (i.min = o.value) : i.value = ""), t.gratuityEnabled && l && r) {
+        const p = l.value === "gratuity";
+        d && p ? (r.textContent = t.gratuityError || "Gratuidade só para viagem de ida.", r.hidden = !1) : (r.hidden = !0, r.textContent = "");
       }
     };
-    s.forEach((d) => d.addEventListener("change", m)), m(), o && o.addEventListener("change", m), (y = e.querySelector(".eulabs-bundled-widget__swap")) == null || y.addEventListener("click", () => {
-      if (!u || !b || !p || !_) return;
+    s.forEach((d) => d.addEventListener("change", g)), g(), l && l.addEventListener("change", g), (v = e.querySelector(".eulabs-bundled-widget__swap")) == null || v.addEventListener("click", () => {
+      if (!u || !b || !f || !m) return;
       const d = u.value;
       u.value = b.value, b.value = d;
-      const g = p.value;
-      p.value = _.value, _.value = g, this._closeSuggest(e);
+      const _ = f.value;
+      f.value = m.value, m.value = _, this._closeSuggest(e), this._syncComboClear(e, "origin"), this._syncComboClear(e, "dest");
     }), this._keydownHandler = (d) => {
       d.key === "Escape" && this._closeSuggest(e);
     }, document.addEventListener("keydown", this._keydownHandler);
-    const f = e.querySelector(".eulabs-bundled-widget__submit");
-    f == null || f.addEventListener("click", () => {
-      var k;
+    const h = e.querySelector(".eulabs-bundled-widget__submit");
+    h == null || h.addEventListener("click", () => {
+      var L;
       const d = (
         /** @type {HTMLInputElement | null} */
-        (k = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : k.checked
+        (L = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : L.checked
       );
       if (!(u != null && u.value) || !(b != null && b.value)) {
         this._setStatus(e, "Selecione origem e destino na lista ou continue a digitar até escolher.", !0);
@@ -248,7 +270,7 @@ class I {
         this._setStatus(e, "Origem e destino devem ser diferentes.", !0);
         return;
       }
-      if (!(l != null && l.value)) {
+      if (!(o != null && o.value)) {
         this._setStatus(e, "Indique a data de ida.", !0);
         return;
       }
@@ -256,40 +278,40 @@ class I {
         this._setStatus(e, "Indique a data de volta.", !0);
         return;
       }
-      if (t.gratuityEnabled && (o == null ? void 0 : o.value) === "gratuity" && d) {
+      if (t.gratuityEnabled && (l == null ? void 0 : l.value) === "gratuity" && d) {
         this._setStatus(e, t.gratuityError || "Gratuidade só para ida.", !0);
         return;
       }
-      const g = String(this.options.urlWL ?? "").trim();
-      if (!g) {
+      const _ = String(this.options.urlWL ?? "").trim();
+      if (!_) {
         this._setStatus(e, "Configure urlWL (site) para redirecionar após a pesquisa.", !0);
         return;
       }
-      const w = this._sectionalById(u.value), E = this._sectionalById(b.value);
-      if (!w || !E) {
+      const p = this._sectionalById(u.value), C = this._sectionalById(b.value);
+      if (!p || !C) {
         this._setStatus(e, "Origem ou destino inválido. Volte a escolher na lista.", !0);
         return;
       }
-      const x = A(w), C = A(E);
-      if (!x || !C) {
+      const E = A(p), x = A(C);
+      if (!E || !x) {
         this._setStatus(e, "Não foi possível montar o endereço desta rota.", !0);
         return;
       }
-      const $ = D(l.value);
+      const $ = D(o.value);
       if (!$) {
         this._setStatus(e, "Data de ida inválida.", !0);
         return;
       }
-      const U = g.endsWith("/") ? g : `${g}/`, j = `comprar-passagem-onibus/${x}/${C}`, v = new URL(j, U);
-      if (v.searchParams.set("data", $), d && (i != null && i.value)) {
-        const L = D(i.value);
-        if (!L) {
+      const O = _.endsWith("/") ? _ : `${_}/`, j = `comprar-passagem-onibus/${E}/${x}`, w = new URL(j, O);
+      if (w.searchParams.set("data", $), d && (i != null && i.value)) {
+        const k = D(i.value);
+        if (!k) {
           this._setStatus(e, "Data de volta inválida.", !0);
           return;
         }
-        v.searchParams.set("volta", L);
+        w.searchParams.set("volta", k);
       }
-      window.location.assign(v.href);
+      window.location.assign(w.href);
     });
   }
   /** @param {string} id */
@@ -308,7 +330,7 @@ class I {
   }
   /** @param {Element} root */
   async _loadSectionals(e) {
-    var o;
+    var l;
     const t = String(this.options.urlAPI ?? ""), s = (
       /** @type {HTMLInputElement | null} */
       e.querySelector("#eulabs_origin_text")
@@ -320,9 +342,9 @@ class I {
       this._setStatus(e, "Sem urlAPI configurada.", !0);
       return;
     }
-    (o = this._abort) == null || o.abort(), this._abort = new AbortController();
+    (l = this._abort) == null || l.abort(), this._abort = new AbortController();
     const i = (r) => {
-      this._sectionals = r, s.placeholder = r.length ? "Digite para filtrar…" : "Sem seccionamentos", n.placeholder = r.length ? "Digite para filtrar…" : "Sem seccionamentos", this._setStatus(
+      this._sectionals = r, s.placeholder = r.length ? "De onde você vai sair?" : "Sem seccionamentos", n.placeholder = r.length ? "Para onde você vai?" : "Sem seccionamentos", this._setStatus(
         e,
         r.length ? "" : "Nenhum seccionamento.",
         !r.length
@@ -335,11 +357,11 @@ class I {
         headers: { Accept: "application/json" }
       });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const l = await r.json();
-      if (!Array.isArray(l)) throw new Error("Resposta não é um array");
+      const o = await r.json();
+      if (!Array.isArray(o)) throw new Error("Resposta não é um array");
       i(
         /** @type {Sectional[]} */
-        l
+        o
       );
     } catch (r) {
       if (
@@ -361,7 +383,7 @@ function D(a) {
   const e = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(a).trim());
   return e ? `${e[3]}-${e[2]}-${e[1]}` : "";
 }
-function H(a) {
+function I(a) {
   return String(a || "").normalize("NFD").replace(new RegExp("\\p{M}", "gu"), "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 function A(a) {
@@ -370,7 +392,7 @@ function A(a) {
     const n = e.toLowerCase().replace(/[^a-z0-9-]/g, "");
     if (n) return n;
   }
-  const t = H(String(a.description ?? "")), s = String(a.uf_acronym ?? "").trim().toLowerCase().replace(/[^a-z]/g, "");
+  const t = I(String(a.description ?? "")), s = String(a.uf_acronym ?? "").trim().toLowerCase().replace(/[^a-z]/g, "");
   return !t && !s ? "" : s ? t ? `${t}-${s}` : s : t;
 }
 function S(a, e) {
@@ -396,7 +418,7 @@ function P(a) {
   if (!e) throw new Error("EulabsWidget: target não encontrado");
   return e;
 }
-function B(a) {
+function M(a) {
   return new Promise((e) => {
     if (!a) {
       e();
@@ -434,7 +456,7 @@ function N(a) {
     }, n.onerror = () => t(new Error("EulabsWidget: falha ao carregar script")), document.body.appendChild(n);
   });
 }
-const T = "eulabs-widget-root", M = {
+const T = "eulabs-widget-root", B = {
   theme: "white",
   orientation: "vertical",
   labelTexts: {
@@ -444,7 +466,9 @@ const T = "eulabs-widget-root", M = {
     returnDate: "Data da volta",
     search: "Pesquisar viagens",
     toggle_go: "Somente ida",
-    toggle_go_and_back: "Ida e volta"
+    toggle_go_and_back: "Ida e volta",
+    clear_origin: "Limpar origem",
+    clear_destination: "Limpar destino"
   },
   calendarReposition: !0,
   calendarNumberMonths: 2,
@@ -491,7 +515,7 @@ class W {
    * @param {Record<string, unknown>} [options]
    */
   constructor(e = {}) {
-    this.options = S(structuredClone(M), e), this.instance = null, this._mountEl = null, this._targetEl = null;
+    this.options = S(structuredClone(B), e), this.instance = null, this._mountEl = null, this._targetEl = null;
   }
   /**
    * Inicializa o widget (carrega assets, monta e liga o runtime).
@@ -520,7 +544,7 @@ class W {
   }
   async loadAssets() {
     const e = this.options.assets, t = typeof (e == null ? void 0 : e.cssUrl) == "string" ? e.cssUrl : "", s = typeof (e == null ? void 0 : e.jsUrl) == "string" ? e.jsUrl : "";
-    this.options.useDefaultCss !== !1 && t && await B(t), s && await N(s);
+    this.options.useDefaultCss !== !1 && t && await M(t), s && await N(s);
   }
   render() {
     const e = P(
@@ -559,7 +583,7 @@ class W {
     if (!(typeof ((s = this.options.assets) == null ? void 0 : s.jsUrl) == "string" ? this.options.assets.jsUrl : ""))
       return (
         /** @type {new (opts: object) => RuntimeInstance} */
-        I
+        H
       );
     const t = this.options.runtimeGlobal;
     if (typeof t == "string" && t && typeof window[

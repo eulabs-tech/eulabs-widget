@@ -64,7 +64,9 @@ export default class EulabsBundledRuntime {
     const labelSearch = lt.search ?? 'Pesquisar viagens'
     const labelGo = lt.toggle_go ?? 'Somente ida'
     const labelRound = lt.toggle_go_and_back ?? 'Ida e volta'
-    const phCombo = 'Digite para filtrar cidade, código ou UF…'
+    const labelClearOrigin = lt.clear_origin ?? 'Limpar origem'
+    const labelClearDest = lt.clear_destination ?? 'Limpar destino'
+    const phCombo = 'De onde você vai sair?'
 
     const gratuity = this.options.gratuity && typeof this.options.gratuity === 'object'
       ? /** @type {{ enable?: boolean; errorMessage?: string; optionList?: Array<{ default?: boolean; label: string; value: string }> }} */ (
@@ -118,6 +120,7 @@ export default class EulabsBundledRuntime {
                   <div class="eulabs-bundled-widget__combo-inner">
                     <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
                     <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${escapeHtml(phCombo)}" />
+                    <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_origin_clear" aria-label="${escapeHtml(labelClearOrigin)}" title="${escapeHtml(labelClearOrigin)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                     <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
                   </div>
                 </div>
@@ -134,6 +137,7 @@ export default class EulabsBundledRuntime {
                 <div class="eulabs-bundled-widget__combo-inner">
                   <input type="hidden" name="dest_sectional" id="eulabs_dest_id" value="" />
                   <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${escapeHtml(phCombo)}" />
+                  <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_dest_clear" aria-label="${escapeHtml(labelClearDest)}" title="${escapeHtml(labelClearDest)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                   <ul class="eulabs-bundled-widget__suggest" id="eulabs_dest_list" role="listbox" hidden></ul>
                 </div>
               </div>
@@ -246,11 +250,26 @@ export default class EulabsBundledRuntime {
    * @param {Element} root
    * @param {'origin' | 'dest'} which
    */
+  _syncComboClear(root, which) {
+    const idSuffix = which === 'origin' ? 'origin' : 'dest'
+    const hidden = /** @type {HTMLInputElement | null} */ (root.querySelector(`#eulabs_${idSuffix}_id`))
+    const text = /** @type {HTMLInputElement | null} */ (root.querySelector(`#eulabs_${idSuffix}_text`))
+    const clearBtn = root.querySelector(`#eulabs_${idSuffix}_clear`)
+    if (!hidden || !text || !clearBtn) return
+    const show = !!(String(hidden.value).trim() || text.value.trim())
+    clearBtn.hidden = !show
+  }
+
+  /**
+   * @param {Element} root
+   * @param {'origin' | 'dest'} which
+   */
   _wireCombo(root, which) {
     const idSuffix = which === 'origin' ? 'origin' : 'dest'
     const hidden = /** @type {HTMLInputElement | null} */ (root.querySelector(`#eulabs_${idSuffix}_id`))
     const text = /** @type {HTMLInputElement | null} */ (root.querySelector(`#eulabs_${idSuffix}_text`))
     const list = root.querySelector(`#eulabs_${idSuffix}_list`)
+    const clearBtn = root.querySelector(`#eulabs_${idSuffix}_clear`)
     if (!hidden || !text || !list) return
 
     const open = () => {
@@ -261,13 +280,16 @@ export default class EulabsBundledRuntime {
         text.value = this._sectionalLabel(s)
         list.hidden = true
         text.setAttribute('aria-expanded', 'false')
+        this._syncComboClear(root, which)
       })
       list.hidden = items.length === 0
       text.setAttribute('aria-expanded', list.hidden ? 'false' : 'true')
+      this._syncComboClear(root, which)
     }
 
     text.addEventListener('focus', () => {
       if (this._sectionals.length) open()
+      else this._syncComboClear(root, which)
     })
 
     text.addEventListener('input', () => {
@@ -280,6 +302,19 @@ export default class EulabsBundledRuntime {
         list.hidden = true
         text.setAttribute('aria-expanded', 'false')
       }, 180)
+    })
+
+    clearBtn?.addEventListener('mousedown', (ev) => {
+      ev.preventDefault()
+    })
+    clearBtn?.addEventListener('click', () => {
+      hidden.value = ''
+      text.value = ''
+      list.innerHTML = ''
+      list.hidden = true
+      text.setAttribute('aria-expanded', 'false')
+      this._syncComboClear(root, which)
+      text.focus()
     })
   }
 
@@ -346,6 +381,8 @@ export default class EulabsBundledRuntime {
       originText.value = destText.value
       destText.value = ti
       this._closeSuggest(root)
+      this._syncComboClear(root, 'origin')
+      this._syncComboClear(root, 'dest')
     })
 
     this._keydownHandler = (ev) => {
@@ -457,8 +494,8 @@ export default class EulabsBundledRuntime {
 
     const onOk = (/** @type {Sectional[]} */ list) => {
       this._sectionals = list
-      originText.placeholder = list.length ? 'Digite para filtrar…' : 'Sem seccionamentos'
-      destText.placeholder = list.length ? 'Digite para filtrar…' : 'Sem seccionamentos'
+      originText.placeholder = list.length ? 'De onde você vai sair?' : 'Sem seccionamentos'
+      destText.placeholder = list.length ? 'Para onde você vai?' : 'Sem seccionamentos'
       this._setStatus(
         root,
         list.length ? `` : 'Nenhum seccionamento.',
