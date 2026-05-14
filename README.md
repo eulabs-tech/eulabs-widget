@@ -10,20 +10,124 @@ Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em 
 npm install eulabs-widget
 ```
 
-### Vue.js (Vue 3 + Vite)
+## eulabs-widget — Guia de instalação (Vue 3)
 
-1. Instale o pacote (comando acima).
-2. Importe o CSS do bundle (o estilo não vem automaticamente só pelo `import` da classe em muitos projetos):
+Este guia descreve como integrar o pacote **eulabs-widget** em aplicações **Vue 3** com bundler moderno (recomendado: **Vite**).
 
-```javascript
+### Requisitos
+
+- Vue **3.x**
+- Ambiente com suporte a **ES modules** (`import` / `export`)
+- O widget utiliza APIs do browser (`document`, etc.): inicialize apenas **no cliente** (ver secção [SSR](#ssr-nuxt-e-quasar)).
+
+### Instalação
+
+```bash
+npm install eulabs-widget
+# ou
+yarn add eulabs-widget
+pnpm add eulabs-widget
+```
+
+### Estilos (CSS)
+
+O JavaScript da biblioteca não aplica automaticamente os estilos em todos os setups. Importe o CSS do bundle:
+
+```js
 import 'eulabs-widget/dist/eulabs-widget.css'
 ```
 
-3. Monte o widget num elemento do DOM após o componente estar montado e destrua-o ao sair (evita duplicar o formulário e liberta listeners).
+### Vite e o campo `exports` do `package.json`
 
-Exemplo com **Composition API** (`<script setup>`):
+Se o `package.json` do **eulabs-widget** exportar apenas o entry principal (`"."`) e **não** declarar `./dist/eulabs-widget.css` em `exports`, o Vite pode falhar com um erro do tipo:
+
+`Missing "./dist/eulabs-widget.css" specifier in "eulabs-widget" package`
+
+**Solução recomendada (manutenção da biblioteca):** acrescentar ao `package.json` do pacote:
+
+```json
+"exports": {
+  ".": {
+    "import": "./dist/eulabs-widget.js",
+    "require": "./dist/eulabs-widget.umd.js"
+  },
+  "./dist/eulabs-widget.css": "./dist/eulabs-widget.css"
+}
+```
+
+**Solução no projeto consumidor (Vite):** alias que aponta para o ficheiro real em `node_modules`.
+
+`vite.config.js`:
+
+```js
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      'eulabs-widget/dist/eulabs-widget.css': path.resolve(
+        __dirname,
+        'node_modules/eulabs-widget/dist/eulabs-widget.css',
+      ),
+    },
+  },
+})
+```
+
+Em **Quasar** (Vite), use `build.extendViteConf` com a mesma ideia de `resolve.alias` (e `path.join(__dirname, 'node_modules/eulabs-widget/dist/eulabs-widget.css')` com `__dirname` derivado de `import.meta.url`).
+
+### Uso com Vue 3 + Composition API (`<script setup>`)
+
+Monte o widget **depois** do componente estar no DOM (`onMounted`) e chame **`destroy()`** ao desmontar, para evitar formulários duplicados e libertar listeners.
+
+### `target` como seletor CSS
 
 ```vue
+<template>
+  <div>
+    <div id="widget-eulabs-wrapper" />
+  </div>
+</template>
+
+<script setup>
+import { onMounted, onBeforeUnmount } from 'vue'
+import EulabsWidget from 'eulabs-widget'
+import 'eulabs-widget/dist/eulabs-widget.css'
+
+let widget = null
+
+onMounted(async () => {
+  widget = await new EulabsWidget({
+    target: '#widget-eulabs-wrapper',
+    clientId: 10770,
+    urlWL: 'https://www.eucatur.com.br/',
+    urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
+    orientation: 'vertical',
+  }).init()
+})
+
+onBeforeUnmount(() => {
+  widget?.destroy()
+  widget = null
+})
+</script>
+```
+
+### `target` como elemento (`ref`)
+
+Alternativa válida quando a API da biblioteca aceita `string | Element`:
+
+```vue
+<template>
+  <div ref="host" />
+</template>
+
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import EulabsWidget from 'eulabs-widget'
@@ -48,15 +152,11 @@ onBeforeUnmount(() => {
   widget = null
 })
 </script>
-
-<template>
-  <div ref="host" />
-</template>
 ```
 
 **Nuxt 3:** o widget precisa do `document`. Envolva o markup em [`<ClientOnly>`](https://nuxt.com/docs/api/components/client-only) e mantenha a mesma lógica em `onMounted` / `onBeforeUnmount`, ou importe `eulabs-widget` só no cliente (`import()` dinâmico dentro de `onMounted`). Não execute `init()` durante o render no servidor.
 
-### React (Vite / CRA)
+## React (Vite / CRA)
 
 1. Instale o pacote (comando acima).
 2. Importe o CSS:
