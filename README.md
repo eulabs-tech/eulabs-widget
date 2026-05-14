@@ -2,13 +2,108 @@
 
 Código-fonte: [github.com/eulabs-tech/eulabs-widget](https://github.com/eulabs-tech/eulabs-widget).
 
-Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em qualquer site ou framework (React, Vue, Angular, JS puro). Por defeito o **JS e o CSS vão no próprio bundle** (`import` em ESM / UMD); não é necessário outro servidor nem `assets.jsUrl`. Opcionalmente pode carregar um runtime externo (script no `window`) se passar `assets.jsUrl` e `runtimeGlobal` (ou `runtimeConstructor`).
+Pacote npm com a classe **EulabsWidget** para embutir o formulário de busca em qualquer site ou framework (React, Vue, Angular, JS puro). O **JS e o CSS vão no próprio bundle** (`import` em ESM / UMD); não é necessário outro servidor nem `assets.jsUrl`. Opcionalmente pode carregar um runtime externo (script no `window`) se passar `assets.jsUrl` e `runtimeGlobal` (ou `runtimeConstructor`).
 
 ## Instalação
 
 ```bash
 npm install eulabs-widget
 ```
+
+### Vue.js (Vue 3 + Vite)
+
+1. Instale o pacote (comando acima).
+2. Importe o CSS do bundle (o estilo não vem automaticamente só pelo `import` da classe em muitos projetos):
+
+```javascript
+import 'eulabs-widget/dist/eulabs-widget.css'
+```
+
+3. Monte o widget num elemento do DOM após o componente estar montado e destrua-o ao sair (evita duplicar o formulário e liberta listeners).
+
+Exemplo com **Composition API** (`<script setup>`):
+
+```vue
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import EulabsWidget from 'eulabs-widget'
+import 'eulabs-widget/dist/eulabs-widget.css'
+
+const host = ref(null)
+let widget = null
+
+onMounted(async () => {
+  if (!host.value) return
+  widget = await new EulabsWidget({
+    target: host.value,
+    clientId: 10770,
+    urlWL: 'https://www.eucatur.com.br/',
+    urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
+    orientation: 'vertical',
+  }).init()
+})
+
+onBeforeUnmount(() => {
+  widget?.destroy()
+  widget = null
+})
+</script>
+
+<template>
+  <div ref="host" />
+</template>
+```
+
+**Nuxt 3:** o widget precisa do `document`. Envolva o markup em [`<ClientOnly>`](https://nuxt.com/docs/api/components/client-only) e mantenha a mesma lógica em `onMounted` / `onBeforeUnmount`, ou importe `eulabs-widget` só no cliente (`import()` dinâmico dentro de `onMounted`). Não execute `init()` durante o render no servidor.
+
+### React (Vite / CRA)
+
+1. Instale o pacote (comando acima).
+2. Importe o CSS:
+
+```javascript
+import 'eulabs-widget/dist/eulabs-widget.css'
+```
+
+3. Use um `ref` no contentor e `useEffect` com função de limpeza que chama `destroy()` no `EulabsWidget`.
+
+```jsx
+import { useEffect, useRef } from 'react'
+import EulabsWidget from 'eulabs-widget'
+import 'eulabs-widget/dist/eulabs-widget.css'
+
+export function EulabsBusca() {
+  const hostRef = useRef(null)
+
+  useEffect(() => {
+    const el = hostRef.current
+    if (!el) return undefined
+
+    let cancelled = false
+    let w = null
+
+    ;(async () => {
+      w = await new EulabsWidget({
+        target: el,
+        clientId: 10770,
+        urlWL: 'https://www.eucatur.com.br/',
+        urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
+        orientation: 'vertical',
+      }).init()
+      if (cancelled) w.destroy()
+    })()
+
+    return () => {
+      cancelled = true
+      w?.destroy()
+    }
+  }, [])
+
+  return <div ref={hostRef} />
+}
+```
+
+**Next.js:** use o mesmo padrão dentro de um componente com [`'use client'`](https://nextjs.org/docs/app/building-your-application/rendering/client-components) e, se necessário, `dynamic(..., { ssr: false })` para não avaliar o módulo no servidor.
 
 ## Página de demonstração
 
