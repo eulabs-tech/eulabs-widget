@@ -320,5 +320,6 @@ Use apenas no navegador (código que roda após `document` existir). Em Next/Nux
 
 
 ## Instrução dev eulabs
+``` npm login
 ``` npm run build
 ``` npm publish
