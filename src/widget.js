@@ -61,7 +61,7 @@ const DEFAULT_OPTIONS = {
   cssVariables: {
     primary: '#253040',
     secondary: '#253040',
-    primaryDark: '#f4c5b8',
+    primaryDark: '#253040',
     transparentSecondary: '#2530401A',
   },
 }
@@ -92,17 +92,20 @@ export default class EulabsWidget {
    * @returns {Promise<EulabsWidget>}
    */
   async bootstrap() {
-    this.applyCssVariables()
     await this.loadAssets()
     this.render()
+    this.applyCssVariables()
     this.bind()
     return this
   }
 
-  applyCssVariables() {
+  /**
+   * @param {Element} [scope]
+   */
+  applyCssVariables(scope) {
     const cv = this.options.cssVariables
     if (!cv || typeof cv !== 'object') return
-    const root = document.documentElement
+    const root = scope ?? this._targetEl ?? document.documentElement
     const map = [
       ['primary', '--primary'],
       ['secondary', '--secondary'],
@@ -111,6 +114,12 @@ export default class EulabsWidget {
     ]
     for (const [key, prop] of map) {
       if (cv[key] != null && cv[key] !== '') root.style.setProperty(prop, String(cv[key]))
+    }
+    if (cv.primary != null && cv.primary !== '') {
+      root.style.setProperty('--input-focus-border-color', String(cv.primary))
+    }
+    if (cv.submitHover != null && cv.submitHover !== '') {
+      root.style.setProperty('--submit-button-background-color-hover', String(cv.submitHover))
     }
   }
 

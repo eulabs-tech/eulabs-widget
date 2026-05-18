@@ -17,7 +17,7 @@
   --input-color: var(--darkGray);
   --input-background: var(--white);
   --input-border-color: var(--neutralDark);
-  --input-focus-border-color: var(--secondary);
+  --input-focus-border-color: var(--primary);
   --input-border-radius: 12px;
   --input-border-color-hover: var(--secondary);
   --input-border-error: var(--danger);
@@ -29,7 +29,7 @@
 
   --submit-button-text-color: var(--white);
   --submit-button-background-color: var(--primary);
-  --submit-button-background-color-hover: var(--primaryDark);
+  --submit-button-background-color-hover: color-mix(in srgb, var(--primary) 88%, #000000);
   --submit-button-border-radius: 24px;
 
   --calendar-title-background: var(--secondary);
@@ -347,6 +347,21 @@
   background: var(--input-background-color-hover, var(--transparentSecondary));
 }
 
+.eulabs-bundled-widget__control:focus-within {
+  border-color: var(--input-focus-border-color, var(--primary, #253040));
+  background: var(--input-background, #fff);
+}
+
+.eulabs-bundled-widget__input--combo:focus,
+.eulabs-bundled-widget__input--date:focus {
+  outline: none;
+}
+
+.eulabs-bundled-widget__input--combo:focus-visible,
+.eulabs-bundled-widget__input--date:focus-visible {
+  outline: none;
+}
+
 .eulabs-bundled-widget__icon {
   display: flex;
   align-items: center;
@@ -414,7 +429,7 @@
 }
 
 .eulabs-bundled-widget__combo-clear:focus-visible {
-  outline: 2px solid var(--secondary, #253040);
+  outline: 2px solid var(--primary, #253040);
   outline-offset: 1px;
 }
 
@@ -496,7 +511,10 @@
 }
 
 .eulabs-bundled-widget__submit:hover {
-  background: var(--submit-button-background-color-hover, var(--primaryDark, #f4c5b8));
+  background: var(
+    --submit-button-background-color-hover,
+    color-mix(in srgb, var(--primary, #253040) 88%, #000000)
+  );
 }
 
 .eulabs-bundled-widget__field--return-muted {

@@ -19,7 +19,7 @@ try {
     cssVariables: {
       primary: '#253040',
       secondary: '#253040',
-      primaryDark: '#f4c5b8',
+      primaryDark: '#253040',
       transparentSecondary: '#2530401A',
     },
     calendarReposition: true,

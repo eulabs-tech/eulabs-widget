@@ -1,5 +1,5 @@
-const U = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', R = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', q = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
-class H {
+const j = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>', P = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 21s7-4.25 7-10a7 7 0 10-14 0c0 5.75 7 10 7 10z"/><circle cx="12" cy="11" r="2.5" fill="currentColor" stroke="none"/></svg>', q = '<svg class="eulabs-bundled-widget__svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 5V3M16 5V3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+class U {
   constructor(e) {
     this.options = e, this._mounted = !1, this._abort = null, this._keydownHandler = null, this._sectionals = [];
   }
@@ -57,7 +57,7 @@ class H {
               <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--origin">
                 <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${c(n)}</label>
                 <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
-                  <span class="eulabs-bundled-widget__icon">${U}</span>
+                  <span class="eulabs-bundled-widget__icon">${j}</span>
                   <div class="eulabs-bundled-widget__combo-inner">
                     <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
                     <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${c(y)}" />
@@ -74,7 +74,7 @@ class H {
             <div class="eulabs-bundled-widget__field">
               <label class="eulabs-bundled-widget__field-label" for="eulabs_dest_text">${c(i)}</label>
               <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
-                <span class="eulabs-bundled-widget__icon">${R}</span>
+                <span class="eulabs-bundled-widget__icon">${P}</span>
                 <div class="eulabs-bundled-widget__combo-inner">
                   <input type="hidden" name="dest_sectional" id="eulabs_dest_id" value="" />
                   <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${c(y)}" />
@@ -117,8 +117,8 @@ class H {
   }
   /** @param {Sectional} s */
   _sectionalLabel(e) {
-    const t = String(e.description ?? ""), s = e.uf_acronym ? String(e.uf_acronym) : "", n = e.code ? String(e.code) : "", i = s ? `${t} (${s})` : t;
-    return n ? `${i} — ${n}` : i;
+    const t = String(e.description ?? "").trim(), s = e.uf_acronym ? String(e.uf_acronym).trim() : "";
+    return t ? s ? `${t} (${s})` : t : s;
   }
   /** @param {string} q */
   _filterSectionals(e) {
@@ -257,10 +257,10 @@ class H {
     }, document.addEventListener("keydown", this._keydownHandler);
     const h = e.querySelector(".eulabs-bundled-widget__submit");
     h == null || h.addEventListener("click", () => {
-      var L;
+      var $;
       const d = (
         /** @type {HTMLInputElement | null} */
-        (L = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : L.checked
+        ($ = e.querySelector('input[name="eulabs_trip"][value="round"]')) == null ? void 0 : $.checked
       );
       if (!(u != null && u.value) || !(b != null && b.value)) {
         this._setStatus(e, "Selecione origem e destino na lista ou continue a digitar até escolher.", !0);
@@ -297,13 +297,13 @@ class H {
         this._setStatus(e, "Não foi possível montar o endereço desta rota.", !0);
         return;
       }
-      const $ = D(o.value);
-      if (!$) {
+      const L = D(o.value);
+      if (!L) {
         this._setStatus(e, "Data de ida inválida.", !0);
         return;
       }
-      const O = _.endsWith("/") ? _ : `${_}/`, j = `comprar-passagem-onibus/${E}/${x}`, w = new URL(j, O);
-      if (w.searchParams.set("data", $), d && (i != null && i.value)) {
+      const H = _.endsWith("/") ? _ : `${_}/`, O = `comprar-passagem-onibus/${E}/${x}`, w = new URL(O, H);
+      if (w.searchParams.set("data", L), d && (i != null && i.value)) {
         const k = D(i.value);
         if (!k) {
           this._setStatus(e, "Data de volta inválida.", !0);
@@ -383,7 +383,7 @@ function D(a) {
   const e = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(a).trim());
   return e ? `${e[3]}-${e[2]}-${e[1]}` : "";
 }
-function I(a) {
+function R(a) {
   return String(a || "").normalize("NFD").replace(new RegExp("\\p{M}", "gu"), "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 function A(a) {
@@ -392,7 +392,7 @@ function A(a) {
     const n = e.toLowerCase().replace(/[^a-z0-9-]/g, "");
     if (n) return n;
   }
-  const t = I(String(a.description ?? "")), s = String(a.uf_acronym ?? "").trim().toLowerCase().replace(/[^a-z]/g, "");
+  const t = R(String(a.description ?? "")), s = String(a.uf_acronym ?? "").trim().toLowerCase().replace(/[^a-z]/g, "");
   return !t && !s ? "" : s ? t ? `${t}-${s}` : s : t;
 }
 function S(a, e) {
@@ -413,7 +413,7 @@ function S(a, e) {
   }
   return a;
 }
-function P(a) {
+function I(a) {
   const e = typeof a == "string" ? document.querySelector(a) : a;
   if (!e) throw new Error("EulabsWidget: target não encontrado");
   return e;
@@ -506,7 +506,7 @@ const T = "eulabs-widget-root", B = {
   cssVariables: {
     primary: "#253040",
     secondary: "#253040",
-    primaryDark: "#f4c5b8",
+    primaryDark: "#253040",
     transparentSecondary: "#2530401A"
   }
 };
@@ -528,26 +528,30 @@ class W {
    * @returns {Promise<EulabsWidget>}
    */
   async bootstrap() {
-    return this.applyCssVariables(), await this.loadAssets(), this.render(), this.bind(), this;
+    return await this.loadAssets(), this.render(), this.applyCssVariables(), this.bind(), this;
   }
-  applyCssVariables() {
-    const e = this.options.cssVariables;
-    if (!e || typeof e != "object") return;
-    const t = document.documentElement, s = [
+  /**
+   * @param {Element} [scope]
+   */
+  applyCssVariables(e) {
+    const t = this.options.cssVariables;
+    if (!t || typeof t != "object") return;
+    const s = e ?? this._targetEl ?? document.documentElement, n = [
       ["primary", "--primary"],
       ["secondary", "--secondary"],
       ["primaryDark", "--primaryDark"],
       ["transparentSecondary", "--transparentSecondary"]
     ];
-    for (const [n, i] of s)
-      e[n] != null && e[n] !== "" && t.style.setProperty(i, String(e[n]));
+    for (const [i, l] of n)
+      t[i] != null && t[i] !== "" && s.style.setProperty(l, String(t[i]));
+    t.primary != null && t.primary !== "" && s.style.setProperty("--input-focus-border-color", String(t.primary)), t.submitHover != null && t.submitHover !== "" && s.style.setProperty("--submit-button-background-color-hover", String(t.submitHover));
   }
   async loadAssets() {
     const e = this.options.assets, t = typeof (e == null ? void 0 : e.cssUrl) == "string" ? e.cssUrl : "", s = typeof (e == null ? void 0 : e.jsUrl) == "string" ? e.jsUrl : "";
     this.options.useDefaultCss !== !1 && t && await M(t), s && await N(s);
   }
   render() {
-    const e = P(
+    const e = I(
       /** @type {string | Element} */
       this.options.target
     );
@@ -583,7 +587,7 @@ class W {
     if (!(typeof ((s = this.options.assets) == null ? void 0 : s.jsUrl) == "string" ? this.options.assets.jsUrl : ""))
       return (
         /** @type {new (opts: object) => RuntimeInstance} */
-        H
+        U
       );
     const t = this.options.runtimeGlobal;
     if (typeof t == "string" && t && typeof window[

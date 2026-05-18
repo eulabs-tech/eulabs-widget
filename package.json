@@ -11,6 +11,9 @@
     "url": "https://github.com/eulabs-tech/eulabs-widget/issues"
   },
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "main": "./dist/eulabs-widget.umd.js",
   "module": "./dist/eulabs-widget.js",
   "exports": {

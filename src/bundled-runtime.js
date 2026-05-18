@@ -186,11 +186,10 @@ export default class EulabsBundledRuntime {
 
   /** @param {Sectional} s */
   _sectionalLabel(s) {
-    const d = String(s.description ?? '')
-    const u = s.uf_acronym ? String(s.uf_acronym) : ''
-    const c = s.code ? String(s.code) : ''
-    const tail = u ? `${d} (${u})` : d
-    return c ? `${tail} — ${c}` : tail
+    const d = String(s.description ?? '').trim()
+    const u = s.uf_acronym ? String(s.uf_acronym).trim() : ''
+    if (!d) return u
+    return u ? `${d} (${u})` : d
   }
 
   /** @param {string} q */

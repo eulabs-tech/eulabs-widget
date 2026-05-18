@@ -224,7 +224,7 @@ await new EulabsWidget({
   cssVariables: {
     primary: '#253040',
     secondary: '#253040',
-    primaryDark: '#f4c5b8',
+    primaryDark: '#253040',
     transparentSecondary: '#2530401A',
   },
   labelTexts: {
@@ -301,7 +301,7 @@ Artefatos em `dist/`: módulo ES (`eulabs-widget.js`), UMD (`eulabs-widget.umd.j
 
 | Opção | Descrição |
 |--------|------------|
-| `cssVariables` | `primary`, `secondary`, `primaryDark`, `transparentSecondary` → aplicados em `:root` e usados pelo runtime embutido (ícones, rádios, bordas, botão) |
+| `cssVariables` | `primary`, `secondary`, `primaryDark`, `transparentSecondary` → aplicados no contentor do widget; o hover do botão «Pesquisar» escurece `primary` (não usa `primaryDark`). Opcional: `submitHover` para cor de hover explícita |
 | `orientation` | `'vertical'` (padrão) ou `'horizontal'`: layout responsivo do runtime embutido |
 | `target` | Seletor CSS ou `Element` onde o widget será montado |
 | `assets.cssUrl` | Só com runtime externo: URL extra de CSS (opcional se `useDefaultCss: false`) |
