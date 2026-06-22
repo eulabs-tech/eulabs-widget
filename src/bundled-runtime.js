@@ -66,8 +66,8 @@ export default class EulabsBundledRuntime {
     const labelRound = lt.toggle_go_and_back ?? 'Ida e volta'
     const labelClearOrigin = lt.clear_origin ?? 'Limpar origem'
     const labelClearDest = lt.clear_destination ?? 'Limpar destino'
-    const phCombo = 'De onde você vai sair?'
-
+    const phOrigin = 'De onde você vai sair?'
+    const phDest = 'Para onde você vai?'
     const gratuity = this.options.gratuity && typeof this.options.gratuity === 'object'
       ? /** @type {{ enable?: boolean; errorMessage?: string; optionList?: Array<{ default?: boolean; label: string; value: string }> }} */ (
           this.options.gratuity
@@ -113,13 +113,13 @@ export default class EulabsBundledRuntime {
 
           <div class="eulabs-bundled-widget__toolbar">
             <div class="eulabs-bundled-widget__origin-row">
-              <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--origin">
+              <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--origin eulabs-bundled-widget__field--top-label">
                 <label class="eulabs-bundled-widget__field-label" for="eulabs_origin_text">${escapeHtml(labelOrigin)}</label>
-                <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
+                <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--combo eulabs-bundled-widget__combo">
                   <span class="eulabs-bundled-widget__icon">${ICON_TARGET}</span>
                   <div class="eulabs-bundled-widget__combo-inner">
                     <input type="hidden" name="origin_sectional" id="eulabs_origin_id" value="" />
-                    <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${escapeHtml(phCombo)}" />
+                    <input type="text" id="eulabs_origin_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_origin_list" aria-autocomplete="list" placeholder="${escapeHtml(phOrigin)}" />
                     <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_origin_clear" aria-label="${escapeHtml(labelClearOrigin)}" title="${escapeHtml(labelClearOrigin)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                     <ul class="eulabs-bundled-widget__suggest" id="eulabs_origin_list" role="listbox" hidden></ul>
                   </div>
@@ -130,32 +130,34 @@ export default class EulabsBundledRuntime {
               </button>
             </div>
 
-            <div class="eulabs-bundled-widget__field">
+            <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--top-label">
               <label class="eulabs-bundled-widget__field-label" for="eulabs_dest_text">${escapeHtml(labelDest)}</label>
-              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__combo">
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--combo eulabs-bundled-widget__combo">
                 <span class="eulabs-bundled-widget__icon">${ICON_PIN}</span>
                 <div class="eulabs-bundled-widget__combo-inner">
                   <input type="hidden" name="dest_sectional" id="eulabs_dest_id" value="" />
-                  <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${escapeHtml(phCombo)}" />
+                  <input type="text" id="eulabs_dest_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--combo" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="eulabs_dest_list" aria-autocomplete="list" placeholder="${escapeHtml(phDest)}" />
                   <button type="button" class="eulabs-bundled-widget__combo-clear" id="eulabs_dest_clear" aria-label="${escapeHtml(labelClearDest)}" title="${escapeHtml(labelClearDest)}" hidden><span class="eulabs-bundled-widget__combo-clear-icon" aria-hidden="true">×</span></button>
                   <ul class="eulabs-bundled-widget__suggest" id="eulabs_dest_list" role="listbox" hidden></ul>
                 </div>
               </div>
             </div>
 
-            <div class="eulabs-bundled-widget__field">
+            <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--top-label">
               <span class="eulabs-bundled-widget__field-label">${escapeHtml(labelDep)}</span>
-              <div class="eulabs-bundled-widget__control">
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--date">
                 <span class="eulabs-bundled-widget__icon">${ICON_CALENDAR}</span>
-                <input id="eulabs_dep" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date" type="date" name="departure" required />
+                <input id="eulabs_dep_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date-display" type="text" name="departure_display" value="" placeholder="00/00/0000" readonly />
+                <input id="eulabs_dep" class="eulabs-bundled-widget__native-date" type="date" name="departure" required />
               </div>
             </div>
 
-            <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--return">
+            <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--return eulabs-bundled-widget__field--top-label">
               <span class="eulabs-bundled-widget__field-label">${escapeHtml(labelRet)}</span>
-              <div class="eulabs-bundled-widget__control">
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--date">
                 <span class="eulabs-bundled-widget__icon">${ICON_CALENDAR}</span>
-                <input id="eulabs_ret" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date" type="date" name="return" />
+                <input id="eulabs_ret_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date-display" type="text" name="return_display" value="" placeholder="00/00/0000" readonly />
+                <input id="eulabs_ret" class="eulabs-bundled-widget__native-date" type="date" name="return" />
               </div>
             </div>
 
@@ -165,8 +167,10 @@ export default class EulabsBundledRuntime {
           ${
             gratuityEnabled
               ? `<div class="eulabs-bundled-widget__gratuity-row">
-              <span class="eulabs-bundled-widget__field-label" id="eulabs_gratuity_lbl">Tipo de passagem (gratuidade)</span>
-              <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${gratuityOptions}</select>
+              <label class="eulabs-bundled-widget__field-label" id="eulabs_gratuity_lbl" for="eulabs_gratuity">Tipo de passagem (gratuidade)</label>
+              <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--select">
+                <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${gratuityOptions}</select>
+              </div>
               <p class="eulabs-bundled-widget__hint eulabs-bundled-widget__gratuity-hint" hidden></p>
             </div>`
               : ''
@@ -325,22 +329,41 @@ export default class EulabsBundledRuntime {
     const tripRadios = root.querySelectorAll('input[name="eulabs_trip"]')
     const retField = root.querySelector('.eulabs-bundled-widget__field--return')
     const retInput = /** @type {HTMLInputElement | null} */ (root.querySelector('input[name="return"]'))
+    const retDisplay = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_ret_text'))
     const gratuitySelect = /** @type {HTMLSelectElement | null} */ (root.querySelector('#eulabs_gratuity'))
     const gratuityHint = root.querySelector('.eulabs-bundled-widget__gratuity-hint')
     const depInput = /** @type {HTMLInputElement | null} */ (root.querySelector('input[name="departure"]'))
+    const depDisplay = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_dep_text'))
     const originId = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_origin_id'))
     const destId = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_dest_id'))
     const originText = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_origin_text'))
     const destText = /** @type {HTMLInputElement | null} */ (root.querySelector('#eulabs_dest_text'))
+    const originField = originText?.closest('.eulabs-bundled-widget__field')
+    const destField = destText?.closest('.eulabs-bundled-widget__field')
+    const depField = depInput?.closest('.eulabs-bundled-widget__field')
+    const retFieldWrap = retInput?.closest('.eulabs-bundled-widget__field')
+    const gratuityField = gratuitySelect?.closest('.eulabs-bundled-widget__gratuity-row')
     this._wireCombo(root, 'origin')
     this._wireCombo(root, 'dest')
+    this._enhancePickerControls(root)
+    this._wireFloatingField(originField, originText)
+    this._wireFloatingField(destField, destText)
+    this._wireFloatingField(depField, depInput)
+    this._wireFloatingField(retFieldWrap, retInput)
+    this._wireFloatingField(gratuityField, gratuitySelect)
 
     const today = new Date().toISOString().slice(0, 10)
     if (depInput) depInput.min = today
     if (retInput) retInput.min = today
+    syncDateDisplay(depInput, depDisplay)
+    syncDateDisplay(retInput, retDisplay)
 
     depInput?.addEventListener('change', () => {
       if (retInput && depInput.value) retInput.min = depInput.value
+      syncDateDisplay(depInput, depDisplay)
+    })
+    retInput?.addEventListener('change', () => {
+      syncDateDisplay(retInput, retDisplay)
     })
 
     const syncTripUi = () => {
@@ -351,9 +374,13 @@ export default class EulabsBundledRuntime {
       if (retInput) {
         retInput.disabled = !round
         retInput.required = !!round
-        if (!round) retInput.value = ''
+        if (!round) {
+          retInput.value = ''
+          if (retDisplay) retDisplay.value = ''
+        }
         else if (depInput?.value) retInput.min = depInput.value
       }
+      this._syncFloatingFieldState(retFieldWrap, retInput)
       if (ctx.gratuityEnabled && gratuitySelect && gratuityHint) {
         const isGratuity = gratuitySelect.value === 'gratuity'
         if (round && isGratuity) {
@@ -459,6 +486,65 @@ export default class EulabsBundledRuntime {
     })
   }
 
+  /** @param {Element} root */
+  _enhancePickerControls(root) {
+    const dateControls = root.querySelectorAll('.eulabs-bundled-widget__control--date')
+    dateControls.forEach((control) => {
+      const input = /** @type {HTMLInputElement | null} */ (
+        control.querySelector('.eulabs-bundled-widget__native-date')
+      )
+      if (!input) return
+
+      const openPicker = () => {
+        if (input.disabled) return
+        input.focus()
+        if (typeof input.showPicker === 'function') {
+          try {
+            input.showPicker()
+          } catch {
+            // Alguns navegadores só aceitam showPicker em interações específicas.
+          }
+        }
+      }
+
+      control.addEventListener('click', (ev) => {
+        if (input.disabled) return
+        if (ev.target !== input) openPicker()
+      })
+
+      input.addEventListener('click', () => {
+        openPicker()
+      })
+    })
+  }
+
+  /**
+   * @param {Element | null | undefined} field
+   * @param {HTMLInputElement | HTMLSelectElement | null | undefined} input
+   */
+  _wireFloatingField(field, input) {
+    if (!field || !input) return
+    const sync = () => this._syncFloatingFieldState(field, input)
+    input.addEventListener('focus', sync)
+    input.addEventListener('blur', sync)
+    input.addEventListener('input', sync)
+    input.addEventListener('change', sync)
+    sync()
+  }
+
+  /**
+   * @param {Element | null | undefined} field
+   * @param {HTMLInputElement | HTMLSelectElement | null | undefined} input
+   */
+  _syncFloatingFieldState(field, input) {
+    if (!field || !input) return
+    const tag = input.tagName.toLowerCase()
+    const value = tag === 'select' ? String(/** @type {HTMLSelectElement} */ (input).value) : input.value
+    field.classList.toggle('eulabs-bundled-widget__field--focused', document.activeElement === input)
+    field.classList.toggle('eulabs-bundled-widget__field--active', !!String(value).trim())
+    field.classList.toggle('eulabs-bundled-widget__field--disabled', !!input.disabled)
+  }
+
   /** @param {string} id */
   _sectionalById(id) {
     const n = Number(id)
@@ -493,8 +579,8 @@ export default class EulabsBundledRuntime {
 
     const onOk = (/** @type {Sectional[]} */ list) => {
       this._sectionals = list
-      originText.placeholder = list.length ? 'De onde você vai sair?' : 'Sem seccionamentos'
-      destText.placeholder = list.length ? 'Para onde você vai?' : 'Sem seccionamentos'
+      originText.placeholder = 'De onde você vai sair?'
+      destText.placeholder = 'Para onde você vai?'
       this._setStatus(
         root,
         list.length ? `` : 'Nenhum seccionamento.',
@@ -516,8 +602,8 @@ export default class EulabsBundledRuntime {
       if (/** @type {Error} */ (e).name === 'AbortError') return
       console.error(e)
       this._sectionals = []
-      originText.placeholder = 'Erro ao carregar'
-      destText.placeholder = 'Erro ao carregar'
+      originText.placeholder = 'De onde você vai sair?'
+      destText.placeholder = 'Para onde você vai?'
       this._setStatus(
         root,
         'Não foi possível obter seccionamentos (rede ou CORS). Em dev, use proxy no Vite.',
@@ -541,6 +627,36 @@ function isoDateToBr(iso) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso).trim())
   if (!m) return ''
   return `${m[3]}-${m[2]}-${m[1]}`
+}
+
+/**
+ * @param {HTMLInputElement | null} source
+ * @param {HTMLInputElement | null} target
+ */
+function syncDateDisplay(source, target) {
+  if (!source || !target) return
+  target.value = source.value ? formatDateForDisplay(source.value) : ''
+}
+
+/** `YYYY-MM-DD` -> `Ter, 23 de Jun 2026` */
+function formatDateForDisplay(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso).trim())
+  if (!m) return ''
+  const date = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 12, 0, 0)
+  if (Number.isNaN(date.getTime())) return ''
+
+  const weekday = new Intl.DateTimeFormat('pt-BR', { weekday: 'short' }).format(date)
+  const month = new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(date)
+  const day = new Intl.DateTimeFormat('pt-BR', { day: 'numeric' }).format(date)
+  const year = new Intl.DateTimeFormat('pt-BR', { year: 'numeric' }).format(date)
+
+  return `${capitalizePtToken(weekday)}, ${day} de ${capitalizePtToken(month)} ${year}`
+}
+
+/** @param {string} value */
+function capitalizePtToken(value) {
+  const clean = String(value).replace(/\.$/, '').trim()
+  return clean ? clean.charAt(0).toUpperCase() + clean.slice(1) : ''
 }
 
 /** @param {string} raw */

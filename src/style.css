@@ -220,6 +220,7 @@
   background: var(--widget-background-color, #fff);
   border-radius: var(--input-border-radius, 12px);
   border: 1px solid var(--lightGray, #e6e6e6);
+  font-family: Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 @media (max-width: 767px) {
@@ -239,7 +240,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem 1rem;
+  min-height: 1.75rem;
 }
 
 .eulabs-bundled-widget__trip-opt {
@@ -247,8 +249,9 @@
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
-  font-size: 0.95rem;
-  color: var(--neutralDark, #4a4a4a);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--mediumGray, #8988aa);
 }
 
 .eulabs-bundled-widget__trip-input {
@@ -282,6 +285,11 @@
   height: 0.55rem;
   border-radius: 50%;
   background: var(--secondary, #253040);
+}
+
+.eulabs-bundled-widget__trip-input:checked ~ .eulabs-bundled-widget__trip-text {
+  color: var(--input-color, #333);
+  font-weight: 600;
 }
 
 .eulabs-bundled-widget__trip-input:focus-visible + .eulabs-bundled-widget__trip-disc {
@@ -319,37 +327,111 @@
 }
 
 .eulabs-bundled-widget__field {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   min-width: 0;
   flex: 1 1 auto;
 }
 
 .eulabs-bundled-widget__field-label {
-  font-size: 0.8rem;
-  color: var(--neutralDark, #4a4a4a);
+  position: static;
+  display: block;
+  font-family: system-ui, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  color: #949494;
+  margin-bottom: 4px;
+  /* text-transform: capitalize; */
+  line-height: 1.2;
+}
+
+.eulabs-bundled-widget__field-label--with-icon {
+  max-width: 100%;
+}
+
+.eulabs-bundled-widget__field--active .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__field--focused .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__field--stacked .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__gratuity-row.eulabs-bundled-widget__field--active .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__gratuity-row.eulabs-bundled-widget__field--focused .eulabs-bundled-widget__field-label {
+  transform: none;
+}
+
+.eulabs-bundled-widget__field--disabled .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__field--return-muted .eulabs-bundled-widget__field-label {
+  opacity: 0.72;
+}
+
+.eulabs-bundled-widget__field--top-label {
+  gap: 0.35rem;
+}
+
+.eulabs-bundled-widget__field--top-label .eulabs-bundled-widget__field-label {
+  max-width: 100%;
+}
+
+.eulabs-bundled-widget__field--top-label.eulabs-bundled-widget__field--active .eulabs-bundled-widget__field-label,
+.eulabs-bundled-widget__field--top-label.eulabs-bundled-widget__field--focused .eulabs-bundled-widget__field-label {
+  top: auto;
+  transform: none;
 }
 
 .eulabs-bundled-widget__control {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  min-height: 2.75rem;
-  padding: 0 0.5rem 0 0.35rem;
-  border: 1px solid var(--input-border-color, #4a4a4a);
-  border-radius: var(--input-border-radius, 12px);
-  background: var(--input-background, #fff);
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--input-background, #fff) 96%, #000 4%);
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.eulabs-bundled-widget__control::before,
+.eulabs-bundled-widget__control::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.eulabs-bundled-widget__control::before {
+  /* border-bottom: 1px solid var(--input-border-color, #4a4a4a); */
+  opacity: 0.78;
+}
+
+.eulabs-bundled-widget__control::after {
+  border-bottom: 2px solid var(--input-focus-border-color, var(--primary, #253040));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.22s ease;
 }
 
 .eulabs-bundled-widget__control:hover {
-  border-color: var(--input-border-color-hover, var(--secondary));
-  background: var(--input-background-color-hover, var(--transparentSecondary));
+  background: color-mix(in srgb, var(--input-background, #fff) 94%, #000 6%);
+}
+
+.eulabs-bundled-widget__control:hover::before {
+  border-bottom-color: var(--input-border-color-hover, var(--secondary));
+  opacity: 1;
 }
 
 .eulabs-bundled-widget__control:focus-within {
-  border-color: var(--input-focus-border-color, var(--primary, #253040));
-  background: var(--input-background, #fff);
+  background: color-mix(in srgb, var(--input-background, #fff) 96%, #000 4%);
+}
+
+.eulabs-bundled-widget__control:focus-within::after {
+  transform: scaleX(1);
 }
 
 .eulabs-bundled-widget__input--combo:focus,
@@ -368,6 +450,12 @@
   justify-content: center;
   flex-shrink: 0;
   color: var(--secondary, #253040);
+  opacity: 0.86;
+  margin-top: 0;
+}
+
+.eulabs-bundled-widget__field--top-label .eulabs-bundled-widget__icon {
+  margin-top: 0;
 }
 
 .eulabs-bundled-widget__svg {
@@ -375,16 +463,22 @@
 }
 
 .eulabs-bundled-widget__select,
-.eulabs-bundled-widget__input--date,
+.eulabs-bundled-widget__input--date-display,
 .eulabs-bundled-widget__input--combo {
   flex: 1 1 0;
   min-width: 0;
   border: none;
   background: transparent;
-  font-size: 1rem;
+  font-size: 14px;
+  line-height: 20px;
   color: var(--input-color, #333);
-  padding: 0.5rem 0.25rem;
+  padding: 10px 0;
   font-family: inherit;
+}
+
+.eulabs-bundled-widget__input::placeholder,
+.eulabs-bundled-widget__select::placeholder {
+  color: var(--mediumGray, #8988aa);
 }
 
 .eulabs-bundled-widget__combo-inner {
@@ -399,28 +493,54 @@
   width: 100%;
 }
 
+.eulabs-bundled-widget__field--top-label .eulabs-bundled-widget__input--combo {
+  padding-top: 10px;
+}
+
+.eulabs-bundled-widget__input--date-display {
+  cursor: pointer;
+}
+
+.eulabs-bundled-widget__native-date {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+}
+
+.eulabs-bundled-widget__native-date:disabled {
+  cursor: not-allowed;
+}
+
 .eulabs-bundled-widget__combo-clear {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  min-width: 2rem;
-  height: 2rem;
-  margin: 0 0.1rem 0 0.15rem;
+  width: 2.1rem;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  margin: 0 0 0 0.1rem;
   padding: 0;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   background: transparent;
   color: var(--neutralDark, #4a4a4a);
   cursor: pointer;
   font-family: inherit;
 }
 
+.eulabs-bundled-widget__field--top-label .eulabs-bundled-widget__combo-clear {
+  margin-top: 0;
+}
+
 .eulabs-bundled-widget__combo-clear-icon {
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   line-height: 1;
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .eulabs-bundled-widget__combo-clear:hover {
@@ -439,23 +559,23 @@
 
 .eulabs-bundled-widget__suggest {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 0.25rem);
   left: 0;
   right: 0;
   z-index: 30;
   max-height: 14rem;
   overflow-y: auto;
   margin: 0;
-  padding: 0.25rem 0;
+  padding: 0.35rem 0;
   list-style: none;
   background: var(--widget-background-color, #fff);
-  border: 1px solid var(--input-border-color, #4a4a4a);
-  border-radius: var(--input-border-radius, 12px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid color-mix(in srgb, var(--input-border-color, #4a4a4a) 60%, transparent);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 .eulabs-bundled-widget__suggest li {
-  padding: 0.55rem 0.75rem;
+  padding: 0.7rem 0.85rem;
   cursor: pointer;
   font-size: 0.95rem;
   color: var(--input-color, #333);
@@ -470,44 +590,48 @@
 .eulabs-bundled-widget__select {
   cursor: pointer;
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--secondary) 50%),
-    linear-gradient(135deg, var(--secondary) 50%, transparent 50%);
-  background-position: calc(100% - 0.65rem) 55%, calc(100% - 0.45rem) 55%;
-  background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
-  background-repeat: no-repeat;
+  background-image: none;
+  padding-right: 1.75rem;
 }
 
 .eulabs-bundled-widget__swap {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   padding: 0;
   cursor: pointer;
-  border: 1px solid var(--input-border-color, #4a4a4a);
-  border-radius: var(--input-border-radius, 10px);
-  background: var(--input-background, #fff);
-  color: var(--secondary, #253040);
+  border: none;
+  border-radius: 6px;
+  background: #f3f3f3;
+  color: #212121;
+  box-shadow: none;
 }
 
 .eulabs-bundled-widget__swap:hover {
-  border-color: var(--secondary, #253040);
-  background: var(--input-background-color-hover, var(--transparentSecondary));
+  background: #ebebeb;
 }
 
 .eulabs-bundled-widget__swap-inner {
-  font-size: 1.15rem;
+  font-size: 18px;
   line-height: 1;
 }
 
 .eulabs-bundled-widget__submit {
   align-self: stretch;
-  padding: 0.7rem 1.25rem;
-  font-size: 1rem;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  font-weight: 400;
   cursor: pointer;
   color: var(--submit-button-text-color, #fff);
   background: var(--submit-button-background-color, var(--primary, #253040));
   border: none;
-  border-radius: var(--submit-button-border-radius, 24px);
+  border-radius: 6px;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .eulabs-bundled-widget__submit:hover {
@@ -515,6 +639,11 @@
     --submit-button-background-color-hover,
     color-mix(in srgb, var(--primary, #253040) 88%, #000000)
   );
+  box-shadow: none;
+}
+
+.eulabs-bundled-widget__submit:active {
+  transform: translateY(1px);
 }
 
 .eulabs-bundled-widget__field--return-muted {
@@ -522,21 +651,58 @@
 }
 
 .eulabs-bundled-widget__gratuity-row {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0;
   width: 100%;
 }
 
 .eulabs-bundled-widget__select--wide {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid var(--input-border-color, #4a4a4a);
-  border-radius: var(--input-border-radius, 12px);
-  background: var(--input-background, #fff);
+  padding: 24px 1.8rem 6px 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   font-size: 1rem;
+  line-height: 1.5rem;
   color: var(--input-color, #333);
+}
+
+.eulabs-bundled-widget__control--select::after {
+  content: '';
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 2px solid var(--secondary, #253040);
+  border-bottom: 2px solid var(--secondary, #253040);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.eulabs-bundled-widget__control--date {
+  cursor: text;
+}
+
+.eulabs-bundled-widget__input--date::-webkit-calendar-picker-indicator {
+  opacity: 0.02;
+  cursor: pointer;
+}
+
+.eulabs-bundled-widget__input--date::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+.eulabs-bundled-widget__input--date:disabled {
+  cursor: not-allowed;
+}
+
+.eulabs-bundled-widget__field--disabled .eulabs-bundled-widget__control,
+.eulabs-bundled-widget__field--return-muted .eulabs-bundled-widget__control {
+  opacity: 0.72;
 }
 
 .eulabs-bundled-widget__note {
@@ -561,7 +727,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: flex-end;
-    gap: 0.5rem 0.65rem;
+    gap: 12px;
   }
 
   .eulabs-bundled-widget--horizontal .eulabs-bundled-widget__origin-row {
@@ -578,7 +744,7 @@
     align-self: flex-end;
     flex: 0 0 auto;
     white-space: nowrap;
-    min-height: 2.75rem;
+    min-height: 40px;
   }
 }
 

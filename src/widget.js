@@ -59,10 +59,10 @@ const DEFAULT_OPTIONS = {
   },
   rootId: DEFAULT_ROOT_ID,
   cssVariables: {
-    primary: '#253040',
-    secondary: '#253040',
-    primaryDark: '#253040',
-    transparentSecondary: '#2530401A',
+    primary: '#1e9755',
+    secondary: '#1e9755',
+    primaryDark: '#1e9755',
+    transparentSecondary: '#1e97551A',
   },
 }
 
@@ -106,6 +106,12 @@ export default class EulabsWidget {
     const cv = this.options.cssVariables
     if (!cv || typeof cv !== 'object') return
     const root = scope ?? this._targetEl ?? document.documentElement
+    const normalized = {
+      primary: normalizeCssValue(cv.primary),
+      secondary: normalizeCssValue(cv.secondary),
+      primaryDark: normalizeCssValue(cv.primaryDark),
+      transparentSecondary: resolveTransparentSecondary(cv.transparentSecondary, cv.secondary),
+    }
     const map = [
       ['primary', '--primary'],
       ['secondary', '--secondary'],
@@ -113,13 +119,13 @@ export default class EulabsWidget {
       ['transparentSecondary', '--transparentSecondary'],
     ]
     for (const [key, prop] of map) {
-      if (cv[key] != null && cv[key] !== '') root.style.setProperty(prop, String(cv[key]))
+      if (normalized[key] !== '') root.style.setProperty(prop, normalized[key])
     }
-    if (cv.primary != null && cv.primary !== '') {
-      root.style.setProperty('--input-focus-border-color', String(cv.primary))
+    if (normalized.primary !== '') {
+      root.style.setProperty('--input-focus-border-color', normalized.primary)
     }
-    if (cv.submitHover != null && cv.submitHover !== '') {
-      root.style.setProperty('--submit-button-background-color-hover', String(cv.submitHover))
+    if (normalizeCssValue(cv.submitHover) !== '') {
+      root.style.setProperty('--submit-button-background-color-hover', normalizeCssValue(cv.submitHover))
     }
   }
 
@@ -210,4 +216,35 @@ export default class EulabsWidget {
       this._targetEl = null
     }
   }
+}
+
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
+function normalizeCssValue(value) {
+  return value == null ? '' : String(value).trim()
+}
+
+/**
+ * `transparentSecondary` precisa ser translúcido; se vier opaco, deriva a partir de `secondary`.
+ * @param {unknown} transparentSecondary
+ * @param {unknown} secondary
+ * @returns {string}
+ */
+function resolveTransparentSecondary(transparentSecondary, secondary) {
+  const explicit = normalizeCssValue(transparentSecondary)
+  if (!explicit) {
+    const base = normalizeCssValue(secondary)
+    return base ? `color-mix(in srgb, ${base} 10%, transparent)` : ''
+  }
+  if (
+    /^#([0-9a-f]{4}|[0-9a-f]{8})$/i.test(explicit) ||
+    /^rgba?\(/i.test(explicit) ||
+    /^hsla?\(/i.test(explicit) ||
+    /^color-mix\(/i.test(explicit)
+  ) {
+    return explicit
+  }
+  return `color-mix(in srgb, ${explicit} 10%, transparent)`
 }

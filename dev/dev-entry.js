@@ -17,10 +17,10 @@ try {
     urlAPI: 'https://api-v4.eucatur.com.br/sectionals?is_road_station=true',
     orientation: 'horizontal', /** 'vertical' = coluna; 'horizontal' = linha em ecrãs ≥768px (ver CSS do runtime embutido) */
     cssVariables: {
-      primary: '#253040',
-      secondary: '#253040',
-      primaryDark: '#253040',
-      transparentSecondary: '#2530401A',
+      primary: '#1e9755',
+      secondary: '#1e9755',
+      primaryDark: '#9a38601a',
+      transparentSecondary: '#5ec91b1a',
     },
     calendarReposition: true,
     calendarNumberMonths: 2,
