@@ -31,7 +31,7 @@ class G {
     ), a = i.origin ?? "Origem", s = i.destination ?? "Destino", r = i.departureDate ?? "Data da ida", l = i.returnDate ?? "Data da volta", c = i.search ?? "Pesquisar viagens", o = i.toggle_go ?? "Somente ida", f = i.toggle_go_and_back ?? "Ida e volta", b = i.clear_origin ?? "Limpar origem", _ = i.clear_destination ?? "Limpar destino", g = "De onde você vai sair?", p = "Para onde você vai?", m = this.options.gratuity && typeof this.options.gratuity == "object" ? (
       /** @type {{ enable?: boolean; errorMessage?: string; optionList?: Array<{ default?: boolean; label: string; value: string }> }} */
       this.options.gratuity
-    ) : { enable: !1, optionList: [] }, v = m.enable === !0 && Array.isArray(m.optionList) && m.optionList.length > 0, E = v ? m.optionList.map(
+    ) : { enable: !1, optionList: [] }, v = m.enable === !0 && Array.isArray(m.optionList) && m.optionList.length > 0, x = v ? m.optionList.map(
       (w) => `<option value="${u(String(w.value))}"${w.default ? " selected" : ""}>${u(w.label)}</option>`
     ).join("") : "", S = this.options.orientation === "horizontal" ? "horizontal" : "vertical", L = S === "horizontal" ? "eulabs-bundled-widget--horizontal" : "eulabs-bundled-widget--vertical";
     t.innerHTML = `
@@ -85,7 +85,7 @@ class G {
             </div>
 
             <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--top-label">
-              <label class="eulabs-bundled-widget__field-label" for="eulabs_dep_text">${u(r)}</label>
+              <span class="eulabs-bundled-widget__field-label">${u(r)}</span>
               <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--date">
                 <span class="eulabs-bundled-widget__icon">${U}</span>
                 <input id="eulabs_dep_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date-display" type="text" name="departure_display" value="" placeholder="00/00/0000" readonly />
@@ -94,7 +94,7 @@ class G {
             </div>
 
             <div class="eulabs-bundled-widget__field eulabs-bundled-widget__field--return eulabs-bundled-widget__field--top-label">
-              <label class="eulabs-bundled-widget__field-label" for="eulabs_ret_text">${u(l)}</label>
+              <span class="eulabs-bundled-widget__field-label">${u(l)}</span>
               <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--date">
                 <span class="eulabs-bundled-widget__icon">${U}</span>
                 <input id="eulabs_ret_text" class="eulabs-bundled-widget__input eulabs-bundled-widget__input--date-display" type="text" name="return_display" value="" placeholder="00/00/0000" readonly />
@@ -108,7 +108,7 @@ class G {
           ${v ? `<div class="eulabs-bundled-widget__gratuity-row">
               <label class="eulabs-bundled-widget__field-label" id="eulabs_gratuity_lbl" for="eulabs_gratuity">Tipo de passagem (gratuidade)</label>
               <div class="eulabs-bundled-widget__control eulabs-bundled-widget__control--select">
-                <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${E}</select>
+                <select id="eulabs_gratuity" class="eulabs-bundled-widget__select eulabs-bundled-widget__select--wide" name="gratuity" aria-labelledby="eulabs_gratuity_lbl">${x}</select>
               </div>
               <p class="eulabs-bundled-widget__hint eulabs-bundled-widget__gratuity-hint" hidden></p>
             </div>` : ""}
@@ -239,13 +239,13 @@ class G {
     ), p = (
       /** @type {HTMLInputElement | null} */
       e.querySelector("#eulabs_dest_text")
-    ), m = g == null ? void 0 : g.closest(".eulabs-bundled-widget__field"), v = p == null ? void 0 : p.closest(".eulabs-bundled-widget__field"), E = o == null ? void 0 : o.closest(".eulabs-bundled-widget__field"), S = s == null ? void 0 : s.closest(".eulabs-bundled-widget__field"), L = l == null ? void 0 : l.closest(".eulabs-bundled-widget__gratuity-row");
-    this._wireCombo(e, "origin"), this._wireCombo(e, "dest"), this._enhancePickerControls(e), this._wireFloatingField(m, g), this._wireFloatingField(v, p), this._wireFloatingField(E, o), this._wireFloatingField(S, s), this._wireFloatingField(L, l);
+    ), m = g == null ? void 0 : g.closest(".eulabs-bundled-widget__field"), v = p == null ? void 0 : p.closest(".eulabs-bundled-widget__field"), x = o == null ? void 0 : o.closest(".eulabs-bundled-widget__field"), S = s == null ? void 0 : s.closest(".eulabs-bundled-widget__field"), L = l == null ? void 0 : l.closest(".eulabs-bundled-widget__gratuity-row");
+    this._wireCombo(e, "origin"), this._wireCombo(e, "dest"), this._enhancePickerControls(e), this._wireFloatingField(m, g), this._wireFloatingField(v, p), this._wireFloatingField(x, o), this._wireFloatingField(S, s), this._wireFloatingField(L, l);
     const w = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
-    o && (o.min = w), s && (s.min = w), x(o, f), x(s, r), o == null || o.addEventListener("change", () => {
-      s && o.value && (s.min = o.value), x(o, f);
+    o && (o.min = w), s && (s.min = w), E(o, f), E(s, r), o == null || o.addEventListener("change", () => {
+      s && o.value && (s.min = o.value), E(o, f);
     }), s == null || s.addEventListener("change", () => {
-      x(s, r);
+      E(s, r);
     });
     const $ = () => {
       var h;
@@ -333,12 +333,18 @@ class G {
         /** @type {HTMLInputElement | null} */
         i.querySelector(".eulabs-bundled-widget__native-date")
       );
-      a && i.addEventListener("click", (s) => {
-        if (!a.disabled && s.target !== a && (a.focus(), typeof a.showPicker == "function"))
+      if (!a) return;
+      const s = () => {
+        if (!a.disabled && (a.focus(), typeof a.showPicker == "function"))
           try {
             a.showPicker();
           } catch {
           }
+      };
+      i.addEventListener("click", (r) => {
+        a.disabled || r.target !== a && s();
+      }), a.addEventListener("click", () => {
+        s();
       });
     });
   }
@@ -432,7 +438,7 @@ function j(n) {
   const e = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(n).trim());
   return e ? `${e[3]}-${e[2]}-${e[1]}` : "";
 }
-function x(n, e) {
+function E(n, e) {
   !n || !e || (e.value = n.value ? J(n.value) : "");
 }
 function J(n) {
